@@ -1,7 +1,12 @@
+import { Theme } from "@radix-ui/themes"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 
+import MainWenote from "~components/mainWenote"
 import { getCurrentTabUrl } from "~content/utils"
+
+import "~assets/style.css"
+import "@radix-ui/themes/styles.css"
 
 function IndexPopup() {
   const [data, setData] = useState("")
@@ -14,64 +19,13 @@ function IndexPopup() {
   }, [])
   console.log("url", url)
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: 16,
-        width: "400px"
-      }}>
-      <h2>
-        Welcome to your <a href="#">MVP</a> Extension!
-      </h2>
-
-      <a href="https://docs.plasmo.com" target="_blank">
-        View Docs
-      </a>
-      <button
-        onClick={() => {
-          console.log("raja")
-
-          setTimeout(() => {
-            axios
-              .post("http://localhost:3000/v1/api/markup", {
-                url: url
-              })
-              .then(function (response) {
-                setloader(false)
-                chrome.tabs.create({
-                  url: `./tabs/delta-flyer.html?id=${response?.data?.id}`
-                })
-                console.log(response)
-              })
-              .catch(function (error) {
-                console.log(error)
-              })
-          }, 1000)
-        }}>
-        {loader ? "loading..." : "Create Markup:"}
-      </button>
-      <p>url:{url}</p>
-      <button
-        onClick={() => {
-          chrome.tabs.query(
-            { active: true, currentWindow: true },
-            function (tabs) {
-              const { id } = tabs[0]
-              chrome.scripting.executeScript({
-                target: { tabId: id },
-                func: () => {
-                  const iframe = document.createElement("iframe")
-                  iframe.src = chrome.runtime.getURL("/tabs/delta-flyer.html")
-                  iframe.name = "delta-flyer"
-                  document.body.appendChild(iframe)
-                }
-              })
-            }
-          )
-        }}>
-        iframe mounting
-      </button>
+    <div className="w-fit shadow-xl !rounded-2xl">
+      <Theme variant="" className="!rounded-3xl">
+        <MainWenote />
+        {/* chrome.tabs.create({
+            url: `./tabs/delta-flyer.html`
+          }) */}
+      </Theme>
     </div>
   )
 }

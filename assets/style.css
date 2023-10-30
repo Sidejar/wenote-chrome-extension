@@ -1,3 +1,13 @@
+@import "@radix-ui/themes/styles.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "SF Pro";
+  src: url("./SF-Pro/SF-Pro-Display-Regular.ttf");
+}
+
+* {
+  font-family: "SF Pro" !important;
+}
