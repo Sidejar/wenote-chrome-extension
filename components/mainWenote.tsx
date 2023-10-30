@@ -43,7 +43,15 @@ const MainWenote = () => {
           History
         </Heading>
         {[1, 2, 3, 4, 5].map((item) => (
-          <Flex key={item} gap="1" justify="between">
+          <Flex
+            key={item}
+            gap="1"
+            justify="between"
+            onClick={() =>
+              chrome.tabs.create({
+                url: `./tabs/delta-flyer.html`
+              })
+            }>
             <Text className="!text-xs  !leading-5 !font-normal  !text-[#00259ecc] border-b border-solid border-[#023eeb26]">
               sitepoint.com
             </Text>

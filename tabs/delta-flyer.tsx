@@ -3,7 +3,11 @@ import { useParams } from "react-router-dom"
 
 import "../assets/style.css"
 
-import { useEffect, useRef, useState } from "react"
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
+import { Box, Flex, TextField, Theme } from "@radix-ui/themes"
+import React, { useEffect, useRef, useState } from "react"
+
+import DetailModal from "~components/detailModal"
 
 export default function DeltaFlyerPage() {
   const [markuUrl, setmarkuUrl] = useState()
@@ -79,82 +83,63 @@ export default function DeltaFlyerPage() {
   // }, [])
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: 16,
-        width: "100vw", // Set width to 100% of viewport width
-        height: "100vh" // Set height to 100% of viewport height
-      }}>
-      <h2>Welcome to the Dashboard</h2>
-      <div
-        className="flex"
-        style={{
-          height: "100%" // Set height to 100% of parent element's height
-        }}>
-        <div
-          style={{
-            zIndex: "9999" // Set height to 100% of parent element's height
-          }}
-          className="w-[200px]">
-          <h2 className="text-[20px]">sidebar comment sections</h2>
-        </div>
-        <div className="w-full">
-          <div
-            className="w-full h-full"
-            onClick={(e) => {
-              console.log(e)
-              setCord([...cord, { x: e.clientX, y: e.clientY }])
-            }}>
-            <div className="relative bg-transparent h-[100vh]"></div>
-            {cord.map((data, counter) => {
-              return (
-                <div
-                  onClick={() => {
-                    setActiveFeedback(counter)
-                  }}
-                  style={{
-                    background: "blue",
-                    borderRadius: "100%",
-                    width: "30px",
-                    height: "30px",
-                    position: "absolute",
-                    top: data.y,
-                    left: data.x
-                  }}>
-                  {counter + 1}
-                  <div>
-                    <input
-                      className={`${
-                        activeFeedback === counter ? "block" : "hidden"
-                      } border solid`}
-                      type="text"
-                    />
+    <Theme>
+      {/* <DetailModal /> */}
+      <Box>
+        <Flex align="start" className="w-full h-full">
+          <Box className="w-[364px] h-screen  border-r border-solid border-gray-300">
+            <TextField.Root className="h-11 flex items-center !rounded-none">
+              <TextField.Slot>
+                <MagnifyingGlassIcon height="16" width="16" />
+              </TextField.Slot>
+              <TextField.Input placeholder="Search the docs…" />
+            </TextField.Root>
+          </Box>
+          <div className="w-full h-screen">
+            <div
+              className="w-full h-full"
+              onClick={(e) => {
+                console.log(e)
+                setCord([...cord, { x: e.clientX, y: e.clientY }])
+              }}>
+              {/* <div className="relative bg-transparent h-[100vh]"></div> */}
+              {cord.map((data, counter) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setActiveFeedback(counter)
+                    }}
+                    style={{
+                      background: "blue",
+                      borderRadius: "100%",
+                      width: "30px",
+                      height: "30px",
+                      position: "absolute",
+                      top: data.y,
+                      left: data.x
+                    }}>
+                    {counter + 1}
+                    <div>
+                      <input
+                        className={`${
+                          activeFeedback === counter ? "block" : "hidden"
+                        } border solid`}
+                        type="text"
+                      />
+                    </div>
                   </div>
-                </div>
-              )
-            })}
-            <iframe
-              src={"https://www.postrank.io/"}
-              width="100%" // Set width to 100% of parent element's width
-              height="100%" // Set height to 100% of parent element's height
-              style={{ border: "none" }} // Optional: Remove iframe border
-            ></iframe>
+                )
+              })}
+              <iframe
+                src={"https://www.postrank.io/"}
+                width="100%" // Set width to 100% of parent element's width
+                height="100%" // Set height to 100% of parent element's height
+                style={{ border: "none" }} // Optional: Remove iframe border
+              ></iframe>
+            </div>
           </div>
-        </div>
-
-        <div className="w-[320px] absolute right-0 ">
-          <h2
-            className="text-[20px]"
-            // onClick={(e) => {
-            //   console.log(e)
-            // }}
-          >
-            jira task
-          </h2>
-        </div>
-      </div>
-    </div>
+        </Flex>
+      </Box>
+    </Theme>
   )
 }

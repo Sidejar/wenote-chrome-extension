@@ -20,11 +20,8 @@ function IndexPopup() {
   console.log("url", url)
   return (
     <div className="w-fit shadow-xl !rounded-2xl">
-      <Theme variant="" className="!rounded-3xl">
+      <Theme className="!rounded-3xl">
         <MainWenote />
-        {/* chrome.tabs.create({
-            url: `./tabs/delta-flyer.html`
-          }) */}
       </Theme>
     </div>
   )
