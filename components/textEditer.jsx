@@ -10,35 +10,37 @@ import { Quill } from "react-quill"
 
 Quill.register("modules/emoji", Emoji)
 
-const TextEditer = ({ setStap }) => {
-  const [value, setValue] = useState("")
+const TextEditer = ({ value }) => {
+  const [editorValue, seteditorValue] = useState("")
 
   useEffect(() => {
-    if (value !== "") {
-      value
+    if (value === "") {
+      seteditorValue("")
+    } else {
+      seteditorValue(value)
     }
-  }, [setStap, value])
-
+  }, [value])
+  console.log("editorValue", editorValue)
   return (
-    <Box className="w-full !px-[10px] !pt-[12px] !pb-[50px] rounded-lg !bg-white relative border border-solid border-[#EBEBEF] overflow-hidden">
+    <Box className="w-full  !px-[10px] !pt-[12px] !pb-[50px] rounded-lg !bg-white relative border border-solid border-[#EBEBEF] overflow-hidden">
       <ReactQuill
         theme="snow"
-        value={value}
-        onChange={setValue}
-        modules={{
-          toolbar: {
-            container: [["emoji", "bold", "italic", "underline"], ["submit"]],
-            handlers: {
-              emoji: function () {},
-              submit: function () {
-                setStap(3)
-              }
-            }
-          },
-          "emoji-toolbar": true,
-          "emoji-textarea": false,
-          "emoji-shortname": true
-        }}
+        value={editorValue}
+        onChange={seteditorValue}
+        // modules={{
+        //   toolbar: {
+        //     container: [["emoji", "bold", "italic", "underline"], ["submit"]],
+        //     handlers: {
+        //       emoji: function () {},
+        //       submit: function () {
+        //         // setStap(3)
+        //       }
+        //     }
+        //   },
+        //   "emoji-toolbar": true,
+        //   "emoji-textarea": false,
+        //   "emoji-shortname": true
+        // }}
       />
     </Box>
   )

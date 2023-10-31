@@ -40,16 +40,8 @@ function IndexPopup() {
   console.log("url", url)
   return (
     <div className="w-fit shadow-xl !rounded-2xl">
-<<<<<<< HEAD
-      <Theme variant="" className="!rounded-3xl">
-        <MainWenote allMarkup={allMarkup} newMarkupUrl={url} />
-        {/* chrome.tabs.create({
-            url: `./tabs/delta-flyer.html`
-          }) */}
-=======
       <Theme className="!rounded-3xl">
-        <MainWenote />
->>>>>>> 13cab5cd69aba71b90f63a50cdd573e783011d90
+        <MainWenote allMarkup={allMarkup} newMarkupUrl={url} />
       </Theme>
     </div>
   )

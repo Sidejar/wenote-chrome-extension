@@ -35,25 +35,33 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
             <Button
               radius="small"
               variant="soft"
-              onClick={async () => {
-                await axios
-                  .post(`http://localhost:3001/v1/api/markup/${9}`, {
-                    name: "Markup",
-                    url: newMarkupUrl
-                  })
-                  .then(function (response) {
-                    console.log("response", response)
-                    if (response?.status === 201) {
-                      chrome.tabs.create({
-                        url: `./tabs/delta-flyer.html?mid=${response?.data?.id}`
-                      })
-                    } else {
-                      console.log("markup url not found")
-                    }
-                  })
-                  .catch(function (error) {
-                    console.log(error)
-                  })
+              onClick={() => {
+                console.log("mar", newMarkupUrl?.split("/")[2])
+                const markupName = newMarkupUrl?.split("/")[2]
+                // chrome.tabs.create({
+                //   url: `./tabs/delta-flyer.html?mid=${1}`
+                // })
+                setTimeout(async () => {
+                  await axios
+                    .post(`http://localhost:3001/v1/api/markup/${9}`, {
+                      name: markupName,
+                      url: newMarkupUrl
+                    })
+                    .then(function (response) {
+                      console.log("response", response)
+                      if (response?.status === 201) {
+                        console.log("response", response)
+                        chrome.tabs.create({
+                          url: `./tabs/delta-flyer.html?id=${response?.data?.markup?.id}`
+                        })
+                      } else {
+                        console.log("markup url not found")
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log(error)
+                    })
+                }, 1000)
               }}
               className="w-fit !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-1  !text-xs !font-medium !tracking-[0.04px] !text-[#60646C] !bg-[#00003b0d] ">
               Create markup
@@ -65,31 +73,41 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
         <Heading as="h2" size="2">
           History
         </Heading>
-<<<<<<< HEAD
-        {allMarkup?.map((item: any, index: number) => (
-          <Flex key={item} gap="1" justify="between">
-=======
-        {[1, 2, 3, 4, 5].map((item) => (
-          <Flex
-            key={item}
-            gap="1"
-            justify="between"
-            onClick={() =>
-              chrome.tabs.create({
-                url: `./tabs/delta-flyer.html`
-              })
-            }>
->>>>>>> 13cab5cd69aba71b90f63a50cdd573e783011d90
-            <Text className="!text-xs  !leading-5 !font-normal  !text-[#00259ecc] border-b border-solid border-[#023eeb26]">
-              {item.name}
-            </Text>
-            <Box className="w-fit flex !h-5 px-2 rounded-[3px] py-[2px] bg-[#0144ff0f]">
-              <Text className="!text-xs !font-medium !tracking-[0.04px] !text-[#00259ecc]">
-                {++index}
-              </Text>
-            </Box>
-          </Flex>
-        ))}
+        {allMarkup ? (
+          <>
+            {allMarkup?.length > 0 ? (
+              <>
+                {allMarkup?.map((item: any, index: number) => (
+                  <Flex
+                    key={item}
+                    gap="1"
+                    justify="between"
+                    className="cursor-pointer"
+                    onClick={() =>
+                      chrome.tabs.create({
+                        url: `./tabs/delta-flyer.html?id=${item?.id}`
+                      })
+                    }>
+                    <Text className="!text-xs  !leading-5 !font-normal  !text-[#00259ecc] border-b border-solid border-[#023eeb26]">
+                      {item.name}
+                    </Text>
+                    <Box className="w-fit flex !h-5 px-2 rounded-[3px] py-[2px] bg-[#0144ff0f]">
+                      <Text className="!text-xs !font-medium !tracking-[0.04px] !text-[#00259ecc]">
+                        {++index}
+                      </Text>
+                    </Box>
+                  </Flex>
+                ))}
+              </>
+            ) : (
+              <>
+                <Box className="text-[12px] text-center">No Result Found</Box>
+              </>
+            )}
+          </>
+        ) : (
+          <Box>Loading...</Box>
+        )}
       </Flex>
     </Card>
   )
