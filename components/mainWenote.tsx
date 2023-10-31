@@ -1,10 +1,12 @@
 import { Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes"
+import axios from "axios"
 import React from "react"
 
 import GoogleIcon from "../assets/images/google-logo.svg"
 import WenoteLogo from "../assets/images/wenote-logo.svg"
 
-const MainWenote = () => {
+const MainWenote = ({ allMarkup, newMarkupUrl }) => {
+  console.log("newMarkupUrl", newMarkupUrl)
   return (
     <Card className="w-[300px] !bg-white !p-3   border border-solid border-[#01012e21] !rounded-xl ">
       <img
@@ -12,6 +14,7 @@ const MainWenote = () => {
         alt="Wenote Logo"
         className="w-fit h-auto  object-contain mb-[27px]"
       />
+
       <Box className="!mb-[27px]">
         {false ? (
           <Button
@@ -32,8 +35,28 @@ const MainWenote = () => {
             <Button
               radius="small"
               variant="soft"
+              onClick={async () => {
+                await axios
+                  .post(`http://localhost:3001/v1/api/markup/${9}`, {
+                    name: "Markup",
+                    url: newMarkupUrl
+                  })
+                  .then(function (response) {
+                    console.log("response", response)
+                    if (response?.status === 201) {
+                      chrome.tabs.create({
+                        url: `./tabs/delta-flyer.html?mid=${response?.data?.id}`
+                      })
+                    } else {
+                      console.log("markup url not found")
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error)
+                  })
+              }}
               className="w-fit !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-1  !text-xs !font-medium !tracking-[0.04px] !text-[#60646C] !bg-[#00003b0d] ">
-              Logout
+              Create markup
             </Button>
           </Flex>
         )}
@@ -42,14 +65,14 @@ const MainWenote = () => {
         <Heading as="h2" size="2">
           History
         </Heading>
-        {[1, 2, 3, 4, 5].map((item) => (
+        {allMarkup?.map((item: any, index: number) => (
           <Flex key={item} gap="1" justify="between">
             <Text className="!text-xs  !leading-5 !font-normal  !text-[#00259ecc] border-b border-solid border-[#023eeb26]">
-              sitepoint.com
+              {item.name}
             </Text>
             <Box className="w-fit flex !h-5 px-2 rounded-[3px] py-[2px] bg-[#0144ff0f]">
               <Text className="!text-xs !font-medium !tracking-[0.04px] !text-[#00259ecc]">
-                22
+                {++index}
               </Text>
             </Box>
           </Flex>

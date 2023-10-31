@@ -13,6 +13,8 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@radix-ui/react-icons": "^1.3.0",
+    "@radix-ui/themes": "^2.0.0",
     "axios": "^1.5.1",
     "plasmo": "workspace:*",
     "react": "18.2.0",
