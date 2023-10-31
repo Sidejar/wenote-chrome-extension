@@ -65,8 +65,21 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
         <Heading as="h2" size="2">
           History
         </Heading>
+<<<<<<< HEAD
         {allMarkup?.map((item: any, index: number) => (
           <Flex key={item} gap="1" justify="between">
+=======
+        {[1, 2, 3, 4, 5].map((item) => (
+          <Flex
+            key={item}
+            gap="1"
+            justify="between"
+            onClick={() =>
+              chrome.tabs.create({
+                url: `./tabs/delta-flyer.html`
+              })
+            }>
+>>>>>>> 13cab5cd69aba71b90f63a50cdd573e783011d90
             <Text className="!text-xs  !leading-5 !font-normal  !text-[#00259ecc] border-b border-solid border-[#023eeb26]">
               {item.name}
             </Text>
