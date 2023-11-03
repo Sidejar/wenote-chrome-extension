@@ -1,4 +1,5 @@
 import { Theme } from "@radix-ui/themes"
+import { GoogleOAuthProvider } from "@react-oauth/google"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 
@@ -22,7 +23,7 @@ function IndexPopup() {
   useEffect(() => {
     ;(async () => {
       axios
-        .get(`http://localhost:3001/v1/api/user/${9}/markup`)
+        .get(`http://localhost:3001/v1/api/user/${13}/markup`)
         .then(function (response) {
           console.log("response", response)
           if (response?.status === 200) {
@@ -40,9 +41,11 @@ function IndexPopup() {
   console.log("url", url)
   return (
     <div className="w-fit shadow-xl !rounded-2xl">
-      <Theme className="!rounded-3xl">
-        <MainWenote allMarkup={allMarkup} newMarkupUrl={url} />
-      </Theme>
+      <GoogleOAuthProvider clientId="808916015221-gdgit9c0lg6tc9a25mcppq3mnn9lh572.apps.googleusercontent.com">
+        <Theme className="!rounded-3xl">
+          <MainWenote allMarkup={allMarkup} newMarkupUrl={url} />
+        </Theme>
+      </GoogleOAuthProvider>
     </div>
   )
 }

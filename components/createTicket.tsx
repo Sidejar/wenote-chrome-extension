@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   Box,
   Button,
@@ -7,39 +5,34 @@ import {
   Heading,
   Select,
   Text,
-  TextField,
-} from "@radix-ui/themes";
-import { Formik } from "formik";
+  TextField
+} from "@radix-ui/themes"
+import { Formik } from "formik"
+import React from "react"
 
-const CreateTicket = () => {
+const CreateTicket = ({ setModalOpen, cta }) => {
   return (
-    <Box className="w-[400px] h-auto p-6 bg-white rounded-xl shadow border border-slate-900 border-opacity-5 ">
-      <Heading size="5" className="!text-neutral-800 ">
-        Create ticket
-      </Heading>
-      <Text as="p" size="2" className="!text-neutral-800 !mt-3 !mb-4">
-        Convert this comment to a ticket in your connected PM tool.
-      </Text>
-
+    <Box>
       <Formik
         initialValues={{
           project: "Select project",
           title: "",
           status: "Choose a status",
-          assignee: "Add assignee",
+          assignee: "Add assignee"
         }}
         validate={(values) => {
-          const errors = {};
+          const errors = {}
 
-          return errors;
+          return errors
         }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
-      >
+            alert(JSON.stringify(values, null, 2))
+            setSubmitting(false)
+            cta()
+          }, 400)
+          setModalOpen()
+        }}>
         {({
           values,
           errors,
@@ -47,7 +40,7 @@ const CreateTicket = () => {
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting,
+          isSubmitting
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
@@ -60,8 +53,7 @@ const CreateTicket = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className="!w-full"
-                defaultValue={values.project}
-              >
+                defaultValue={values.project}>
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
@@ -96,8 +88,7 @@ const CreateTicket = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className="!w-full"
-                defaultValue={values.status}
-              >
+                defaultValue={values.status}>
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
@@ -118,8 +109,7 @@ const CreateTicket = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className="!w-full"
-                defaultValue={values.assignee}
-              >
+                defaultValue={values.assignee}>
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
@@ -134,15 +124,13 @@ const CreateTicket = () => {
             <Flex justify="end" align="center" className="!gap-3 w-full mt-12">
               <Button
                 type="button"
-                className="!h-8 !cursor-pointer !px-3 !text-sm !font-medium !text-[#60646C] !bg-slate-900 !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex"
-              >
+                className="!h-8 !cursor-pointer !px-3 !text-sm !font-medium !text-[#60646C] !bg-slate-900 !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex">
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-white  !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex"
-              >
+                className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-white  !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex">
                 Create ticket
               </Button>
             </Flex>
@@ -150,7 +138,7 @@ const CreateTicket = () => {
         )}
       </Formik>
     </Box>
-  );
-};
+  )
+}
 
-export default CreateTicket;
+export default CreateTicket

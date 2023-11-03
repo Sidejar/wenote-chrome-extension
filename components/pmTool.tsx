@@ -6,7 +6,7 @@ import Jira from "../assets/images/jira.png"
 import Linear from "../assets/images/Linear.png"
 import Notion from "../assets/images/Notion.png"
 
-const PmTool = () => {
+const PmTool = ({ cta }) => {
   return (
     <Box className="w-[400px] h-auto p-6 bg-white rounded-xl shadow border border-slate-900 border-opacity-5 ">
       <Heading size="5" className="!text-neutral-800 !mb-4">
@@ -23,6 +23,7 @@ const PmTool = () => {
 
           <Button
             variant="outline"
+            onClick={cta}
             className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-[#00259ecc]  !rounded justify-center items-center gap-2 inline-flex">
             Connect
           </Button>

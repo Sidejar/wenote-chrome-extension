@@ -1,10 +1,17 @@
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Avatar, Box, Button, DropdownMenu, Flex, Text } from "@radix-ui/themes"
-import React from "react"
+import React, { useState } from "react"
 
-const Comment = ({ thread }) => {
+const Comment = ({ conversation, setModalOpen }) => {
+  const [activeConvo, setactiveConvo] = useState([])
   return (
     <Box className="w-full mb-[20px]">
+      {conversation?.threads?.length > 0 && (
+        <div className="bg-[#1b00fb] rounded-full w-[22px] h-[22px] mb-[16px] flex  justify-center text-[14px] items-center  text-white">
+          {conversation?.threads?.length}
+        </div>
+      )}
+
       <Flex align="start" justify={"between"} className="!gap-2">
         <Flex align="start" className="!gap-2">
           <Avatar
@@ -15,15 +22,18 @@ const Comment = ({ thread }) => {
           <Box>
             <Flex align="center" className="!gap-2 !mt-1 !mb-2">
               <Text size="1" weight="bold">
-                {thread?.username}
+                {conversation?.username || "raja"}
               </Text>
               <Text size="1" color="gray">
                 23 min ago
               </Text>
             </Flex>
-            <Text as="div" size="2" className="!text-[#1C2024]">
-              {thread?.text}
-            </Text>
+
+            <p
+              className="w-full"
+              dangerouslySetInnerHTML={{
+                __html: conversation?.title
+              }}></p>
           </Box>
         </Flex>
         <DropdownMenu.Root>
@@ -37,7 +47,12 @@ const Comment = ({ thread }) => {
           </DropdownMenu.Trigger>
           <DropdownMenu.Content size="2">
             <DropdownMenu.Item>Resolve</DropdownMenu.Item>
-            <DropdownMenu.Item>Create ticket</DropdownMenu.Item>
+            <DropdownMenu.Item
+              onClick={() => {
+                setModalOpen(true)
+              }}>
+              Create ticket
+            </DropdownMenu.Item>
             <DropdownMenu.Item>Share</DropdownMenu.Item>
 
             <DropdownMenu.Separator />

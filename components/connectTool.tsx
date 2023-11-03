@@ -1,7 +1,7 @@
-import { Box, Button, Flex, Heading, Text } from "@radix-ui/themes";
-import React from "react";
+import { Box, Button, Flex, Heading, Text } from "@radix-ui/themes"
+import React from "react"
 
-const ConnectTool = () => {
+const ConnectTool = ({ cta }) => {
   return (
     <Box className="w-[400px] h-auto p-6 bg-white rounded-xl shadow border border-slate-900 border-opacity-5 ">
       <Heading size="5" className="!text-neutral-800 ">
@@ -16,12 +16,14 @@ const ConnectTool = () => {
         <Button className="!h-8 !cursor-pointer !px-3 !text-sm !font-medium !text-[#60646C] !bg-slate-900 !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex">
           Cancel
         </Button>
-        <Button className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-white  !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex">
+        <Button
+          className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-white  !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex"
+          onClick={cta}>
           Connect
         </Button>
       </Flex>
     </Box>
-  );
-};
+  )
+}
 
-export default ConnectTool;
+export default ConnectTool

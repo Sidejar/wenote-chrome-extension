@@ -1,7 +1,10 @@
-import { Box } from "@radix-ui/themes"
+import { Box, Button, Flex, Text } from "@radix-ui/themes"
+import axios from "axios"
 import * as Emoji from "quill-emoji"
 import React, { useEffect, useState } from "react"
 import ReactQuill from "react-quill"
+
+import Comment from "./comment"
 
 import "quill-emoji/dist/quill-emoji.css"
 import "react-quill/dist/quill.snow.css"
@@ -10,39 +13,70 @@ import { Quill } from "react-quill"
 
 Quill.register("modules/emoji", Emoji)
 
-const TextEditer = ({ value }) => {
+const TextEditer = ({
+  setActiveFeedback,
+  markupId,
+  getAllCOnversationThreads,
+  activeCord
+}) => {
   const [editorValue, seteditorValue] = useState("")
 
-  useEffect(() => {
-    if (value === "") {
-      seteditorValue("")
-    } else {
-      seteditorValue(value)
+  const handleFormSubmit = async () => {
+    const payload = {
+      ...activeCord,
+      title: editorValue,
+      status: "active",
+      username: "raja"
     }
-  }, [value])
-  console.log("editorValue", editorValue)
+    axios
+      .post(`http://localhost:3001/api/v1/conversation/${markupId}`, payload)
+      .then(function (response) {
+        console.log("response", response)
+        if (response?.status === 201) {
+          setActiveFeedback()
+          getAllCOnversationThreads()
+          seteditorValue("")
+        } else {
+          // setallMarkup([])
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
   return (
-    <Box className="w-full  !px-[10px] !pt-[12px] !pb-[50px] rounded-lg !bg-white relative border border-solid border-[#EBEBEF] overflow-hidden">
-      <ReactQuill
-        theme="snow"
-        value={editorValue}
-        onChange={seteditorValue}
-        // modules={{
-        //   toolbar: {
-        //     container: [["emoji", "bold", "italic", "underline"], ["submit"]],
-        //     handlers: {
-        //       emoji: function () {},
-        //       submit: function () {
-        //         // setStap(3)
-        //       }
-        //     }
-        //   },
-        //   "emoji-toolbar": true,
-        //   "emoji-textarea": false,
-        //   "emoji-shortname": true
-        // }}
-      />
-    </Box>
+    <div
+      style={{ position: "absolute", top: "40px" }}
+      className="absolute !top-[40px] z-index-[9999] bg-[#f5f6f7] w-[400px] border border-solid solid-gray-300">
+      <form
+        className=" w-full"
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleFormSubmit()
+        }}>
+        <ReactQuill
+          className="w-full"
+          value={editorValue}
+          onChange={(e) => {
+            seteditorValue(e)
+          }}
+          modules={{
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ["bold", "italic", "underline"],
+              ["image", "code-block"]
+            ]
+          }}
+          theme="snow"
+        />
+        <Button
+          style={{ right: "5px", bottom: "12px" }}
+          className="absolute !right-[5px] !bottom-[6px]"
+          type="submit">
+          Submit
+        </Button>
+      </form>
+    </div>
   )
 }
 

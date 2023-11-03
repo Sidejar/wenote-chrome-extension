@@ -1,4 +1,5 @@
 import { Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes"
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import axios from "axios"
 import React from "react"
 
@@ -6,7 +7,14 @@ import GoogleIcon from "../assets/images/google-logo.svg"
 import WenoteLogo from "../assets/images/wenote-logo.svg"
 
 const MainWenote = ({ allMarkup, newMarkupUrl }) => {
-  console.log("newMarkupUrl", newMarkupUrl)
+  const login = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse: any) => {
+      console.log("res", codeResponse)
+    },
+    onError: (error) => console.log("Login Failed:", error),
+    scope: " https://www.googleapis.com/auth/userinfo.profile"
+  })
   return (
     <Card className="w-[300px] !bg-white !p-3   border border-solid border-[#01012e21] !rounded-xl ">
       <img
@@ -17,13 +25,16 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
 
       <Box className="!mb-[27px]">
         {false ? (
-          <Button
-            radius="small"
-            variant="soft"
-            className="w-full !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-[11px]  !text-sm !bg-white  !font-medium !text-[#0000008a] shadow-md">
-            <img src={GoogleIcon} alt="google" width="18" height="18" /> Sign in
-            with Google
-          </Button>
+          <>
+            <Button
+              onClick={() => login()}
+              radius="small"
+              variant="soft"
+              className="w-full !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-[11px]  !text-sm !bg-white  !font-medium !text-[#0000008a] shadow-md">
+              <img src={GoogleIcon} alt="google" width="18" height="18" /> Sign
+              in with Google
+            </Button>
+          </>
         ) : (
           <Flex gap="3" align="center" justify="between">
             <Button
@@ -36,6 +47,7 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
               radius="small"
               variant="soft"
               onClick={() => {
+                console.log("newMarkupUrl", newMarkupUrl)
                 console.log("mar", newMarkupUrl?.split("/")[2])
                 const markupName = newMarkupUrl?.split("/")[2]
                 // chrome.tabs.create({
@@ -43,16 +55,14 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
                 // })
                 setTimeout(async () => {
                   await axios
-                    .post(`http://localhost:3001/v1/api/markup/${9}`, {
+                    .post(`http://localhost:3001/v1/api/markup/${13}`, {
                       name: markupName,
                       url: newMarkupUrl
                     })
                     .then(function (response) {
-                      console.log("response", response)
                       if (response?.status === 201) {
-                        console.log("response", response)
                         chrome.tabs.create({
-                          url: `./tabs/delta-flyer.html?id=${response?.data?.markup?.id}`
+                          url: `./tabs/delta-flyer.html?id=${response?.data?.id}`
                         })
                       } else {
                         console.log("markup url not found")
@@ -93,7 +103,7 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
                     </Text>
                     <Box className="w-fit flex !h-5 px-2 rounded-[3px] py-[2px] bg-[#0144ff0f]">
                       <Text className="!text-xs !font-medium !tracking-[0.04px] !text-[#00259ecc]">
-                        {++index}
+                        {item.totalConvo}
                       </Text>
                     </Box>
                   </Flex>
