@@ -3,6 +3,8 @@ import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import axios from "axios"
 import React from "react"
 
+import { createMarkupDetail } from "~services/markup"
+
 import GoogleIcon from "../assets/images/google-logo.svg"
 import WenoteLogo from "../assets/images/wenote-logo.svg"
 
@@ -54,23 +56,17 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
                 //   url: `./tabs/delta-flyer.html?mid=${1}`
                 // })
                 setTimeout(async () => {
-                  await axios
-                    .post(`http://localhost:3001/v1/api/markup/${13}`, {
-                      name: markupName,
-                      url: newMarkupUrl
+                  const response = await createMarkupDetail(13, {
+                    name: markupName,
+                    url: newMarkupUrl
+                  })
+                  if (response?.status === 201) {
+                    chrome.tabs.create({
+                      url: `./tabs/delta-flyer.html?id=${response?.data?.id}`
                     })
-                    .then(function (response) {
-                      if (response?.status === 201) {
-                        chrome.tabs.create({
-                          url: `./tabs/delta-flyer.html?id=${response?.data?.id}`
-                        })
-                      } else {
-                        console.log("markup url not found")
-                      }
-                    })
-                    .catch(function (error) {
-                      console.log(error)
-                    })
+                  } else {
+                    console.log("markup url not found")
+                  }
                 }, 1000)
               }}
               className="w-fit !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-1  !text-xs !font-medium !tracking-[0.04px] !text-[#60646C] !bg-[#00003b0d] ">

@@ -1,10 +1,9 @@
 import { Box, Button, Flex, Text } from "@radix-ui/themes"
-import axios from "axios"
 import * as Emoji from "quill-emoji"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import ReactQuill from "react-quill"
 
-import Comment from "./comment"
+import { createConversationMarkup } from "~services/markup"
 
 import "quill-emoji/dist/quill-emoji.css"
 import "react-quill/dist/quill.snow.css"
@@ -28,21 +27,14 @@ const TextEditer = ({
       status: "active",
       username: "raja"
     }
-    axios
-      .post(`http://localhost:3001/api/v1/conversation/${markupId}`, payload)
-      .then(function (response) {
-        console.log("response", response)
-        if (response?.status === 201) {
-          setActiveFeedback()
-          getAllCOnversationThreads()
-          seteditorValue("")
-        } else {
-          // setallMarkup([])
-        }
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+    const response = await createConversationMarkup(markupId, payload)
+    if (response?.status === 201) {
+      setActiveFeedback()
+      getAllCOnversationThreads()
+      seteditorValue("")
+    } else {
+      // setallMarkup([])
+    }
   }
   return (
     <div

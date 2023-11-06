@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 
 import MainWenote from "~components/mainWenote"
 import { getCurrentTabUrl } from "~content/utils"
+import { getMarkupDetails } from "~services/markup"
 
 import "~assets/style.css"
 import "@radix-ui/themes/styles.css"
@@ -22,23 +23,15 @@ function IndexPopup() {
 
   useEffect(() => {
     ;(async () => {
-      axios
-        .get(`http://localhost:3001/v1/api/user/${13}/markup`)
-        .then(function (response) {
-          console.log("response", response)
-          if (response?.status === 200) {
-            setallMarkup(response?.data?.markups)
-          } else {
-            setallMarkup([])
-          }
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      const response = await getMarkupDetails(13)
+      if (response?.status === 200) {
+        setallMarkup(response?.data?.markups)
+      } else {
+        setallMarkup([])
+      }
     })()
   }, [])
 
-  console.log("url", url)
   return (
     <div className="w-fit shadow-xl !rounded-2xl">
       <GoogleOAuthProvider clientId="808916015221-gdgit9c0lg6tc9a25mcppq3mnn9lh572.apps.googleusercontent.com">

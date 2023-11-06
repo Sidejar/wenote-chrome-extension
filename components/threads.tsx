@@ -4,6 +4,8 @@ import axios from "axios"
 import React, { useState } from "react"
 import ReactQuill from "react-quill"
 
+import { createConversationThreads } from "~services/markup"
+
 const Threads = ({ conversation, getAllCOnversationThreads }) => {
   const [reply, setReply] = useState("")
   return (
@@ -61,23 +63,16 @@ const Threads = ({ conversation, getAllCOnversationThreads }) => {
                 username: "raja",
                 status: "active"
               }
-              axios
-                .post(
-                  `http://localhost:3001/v1/api/threads/${conversation?.id}`,
-                  payload
-                )
-                .then(function (response) {
-                  console.log("response", response)
-                  if (response?.status === 201) {
-                    getAllCOnversationThreads()
-                    setReply("")
-                  } else {
-                    // setallMarkup([])
-                  }
-                })
-                .catch(function (error) {
-                  console.log(error)
-                })
+              const response = await createConversationThreads(
+                conversation?.id,
+                payload
+              )
+              if (response?.status === 201) {
+                getAllCOnversationThreads()
+                setReply("")
+              } else {
+                // setallMarkup([])
+              }
             }}>
             <ReactQuill
               className="w-full"

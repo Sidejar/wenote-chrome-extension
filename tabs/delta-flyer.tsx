@@ -11,6 +11,7 @@ import DetailModal from "~components/detailModal"
 import NoComment from "~components/noComments"
 import TextEditer from "~components/textEditer"
 import Threads from "~components/threads"
+import { getMarkupDetailsByID } from "~services/markup"
 
 import "../assets/style.css"
 
@@ -27,16 +28,11 @@ export default function DeltaFlyerPage() {
   const [isModalOpen, setModalOpen] = useState(false)
 
   const getAllCOnversationThreads = async () => {
-    axios
-      .get(`http://localhost:3001/v1/api/markup/${id}`)
-      .then(function (response) {
-        console.log("response", response)
-        setMarkupdata(response?.data)
-        setCord(response?.data?.conversations)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+    const response = await getMarkupDetailsByID(parseInt(id))
+    if (response?.status === 200) {
+      setMarkupdata(response?.data)
+      setCord(response?.data?.conversations)
+    }
   }
 
   useEffect(() => {
@@ -45,7 +41,6 @@ export default function DeltaFlyerPage() {
 
   useEffect(() => {
     const iframe = iframeRef.current
-    console.log("iframeRef", iframeRef)
     if (iframe) {
       iframe.onload = () => {
         setLoading(false)
@@ -108,6 +103,10 @@ export default function DeltaFlyerPage() {
                   }
                 }}></div>
               {[...cord, activeCord]?.map((data, counter) => {
+                if (Object.keys(data).length === 0) {
+                  // Skip rendering empty object
+                  return null
+                }
                 const isNo = counter + 1
                 return (
                   <div
