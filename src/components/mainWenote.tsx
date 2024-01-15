@@ -1,12 +1,10 @@
 import { Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes"
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
-import axios from "axios"
 import React from "react"
 
 import { createMarkupDetail } from "~services/markup"
 
-import GoogleIcon from "../assets/images/google-logo.svg"
-import WenoteLogo from "../assets/images/wenote-logo.svg"
+import GoogleIcon from "../../assets/images/google-logo.svg"
+import WenoteLogo from "../../assets/images/wenote-logo.svg"
 
 const MainWenote = ({ allMarkup, newMarkupUrl }) => {
   const login = useGoogleLogin({
@@ -26,7 +24,7 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
       />
 
       <Box className="!mb-[27px]">
-        {false ? (
+        {true ? (
           <>
             <Button
               onClick={() => login()}

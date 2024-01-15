@@ -1,6 +1,5 @@
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { Box, Flex, Heading, Text, TextField, Theme } from "@radix-ui/themes"
-import axios from "axios"
 import React, { useEffect, useRef, useState } from "react"
 
 import "react-quill/dist/quill.snow.css"
@@ -13,7 +12,7 @@ import TextEditer from "~components/textEditer"
 import Threads from "~components/threads"
 import { getMarkupDetailsByID } from "~services/markup"
 
-import "../assets/style.css"
+import "../../assets/style.css"
 
 export default function DeltaFlyerPage() {
   const urlParams = new URLSearchParams(window.location.search)

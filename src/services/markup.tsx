@@ -1,8 +1,6 @@
-import { get, post } from "./http"
-
 const getMarkupDetails = async (uid: number) => {
   try {
-    return await get(`user/${uid}/markup`)
+    return {}
   } catch (err) {
     console.log("error", err)
     return err?.response?.data
@@ -11,7 +9,7 @@ const getMarkupDetails = async (uid: number) => {
 
 const getMarkupDetailsByID = async (id: number) => {
   try {
-    return await get(`markup/${id}`)
+    return {}
   } catch (err) {
     console.log("error", err)
     return err?.response?.data
@@ -20,7 +18,7 @@ const getMarkupDetailsByID = async (id: number) => {
 
 const createMarkupDetail = async (uid: number, data: any) => {
   try {
-    return await post(`markup/${uid}`, data)
+    return {}
   } catch (err) {
     console.log("error", err)
     return err?.response?.data
@@ -29,7 +27,7 @@ const createMarkupDetail = async (uid: number, data: any) => {
 
 const createConversationMarkup = async (id: number, data: any) => {
   try {
-    return await post(`conversation/${id}`, data)
+    return {}
   } catch (err) {
     console.log("error", err)
     return err?.response?.data
@@ -38,7 +36,7 @@ const createConversationMarkup = async (id: number, data: any) => {
 
 const createConversationThreads = async (id: number, data: any) => {
   try {
-    return await post(`threads/${id}`, data)
+    return {}
   } catch (err) {
     console.log("error", err)
     return err?.response?.data

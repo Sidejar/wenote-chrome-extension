@@ -1,20 +1,22 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
     ".plasmo/index.d.ts",
     "./**/*.ts",
-    "./**/*.tsx",
-    "components/textEditer.jsx"
+    "./**/*.tsx"
   ],
   "compilerOptions": {
     "jsx": "react",
-    "jsx": "react",
-    "jsx": "react",
-    "jsx": "react",
-    "jsx": "react",
+    "module": "commonjs",
+    "target": "es6",
+    "esModuleInterop": true,
     "paths": {
-      "~*": ["./*"]
+      "~*": [
+        "./src/*"
+      ]
     },
     "baseUrl": "."
   }

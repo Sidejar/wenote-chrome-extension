@@ -1,10 +1,10 @@
 import { Box, Button, Flex, Heading, Text } from "@radix-ui/themes"
 import React from "react"
 
-import Asana from "../assets/images/Asana.png"
-import Jira from "../assets/images/jira.png"
-import Linear from "../assets/images/Linear.png"
-import Notion from "../assets/images/Notion.png"
+import Asana from "../../assets/images/Asana.png"
+import Jira from "../../assets/images/jira.png"
+import Linear from "../../assets/images/Linear.png"
+import Notion from "../../assets/images/Notion.png"
 
 const PmTool = ({ cta }) => {
   return (

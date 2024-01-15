@@ -7,7 +7,6 @@ import {
   Text,
   TextField
 } from "@radix-ui/themes"
-import { Formik } from "formik"
 import React from "react"
 
 const CreateTicket = ({ setModalOpen, cta }) => {
