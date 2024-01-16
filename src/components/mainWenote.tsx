@@ -1,19 +1,19 @@
-import { Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes"
-import React from "react"
+import { Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes'
+import React from 'react'
 
-import { createMarkupDetail } from "~services/markup"
+import { createMarkupDetail } from '~services/markup'
 
-import GoogleIcon from "../../assets/images/google-logo.svg"
-import WenoteLogo from "../../assets/images/wenote-logo.svg"
+import GoogleIcon from '../../assets/images/google-logo.svg'
+import WenoteLogo from '../../assets/images/wenote-logo.svg'
 
 const MainWenote = ({ allMarkup, newMarkupUrl }) => {
   const login = useGoogleLogin({
-    flow: "auth-code",
+    flow: 'auth-code',
     onSuccess: async (codeResponse: any) => {
-      console.log("res", codeResponse)
+      console.log('res', codeResponse)
     },
-    onError: (error) => console.log("Login Failed:", error),
-    scope: " https://www.googleapis.com/auth/userinfo.profile"
+    onError: (error) => console.log('Login Failed:', error),
+    scope: ' https://www.googleapis.com/auth/userinfo.profile',
   })
   return (
     <Card className="w-[300px] !bg-white !p-3   border border-solid border-[#01012e21] !rounded-xl ">
@@ -30,7 +30,8 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
               onClick={() => login()}
               radius="small"
               variant="soft"
-              className="w-full !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-[11px]  !text-sm !bg-white  !font-medium !text-[#0000008a] shadow-md">
+              className="w-full !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-[11px]  !text-sm !bg-white  !font-medium !text-[#0000008a] shadow-md"
+            >
               <img src={GoogleIcon} alt="google" width="18" height="18" /> Sign
               in with Google
             </Button>
@@ -40,34 +41,36 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
             <Button
               radius="small"
               variant="soft"
-              className="w-fit !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-1  !text-xs !font-medium !tracking-[0.04px] !text-[#00259ecc] !bg-[#0144ff0f] ">
+              className="w-fit !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-1  !text-xs !font-medium !tracking-[0.04px] !text-[#00259ecc] !bg-[#0144ff0f] "
+            >
               Integrations
             </Button>
             <Button
               radius="small"
               variant="soft"
               onClick={() => {
-                console.log("newMarkupUrl", newMarkupUrl)
-                console.log("mar", newMarkupUrl?.split("/")[2])
-                const markupName = newMarkupUrl?.split("/")[2]
+                console.log('newMarkupUrl', newMarkupUrl)
+                console.log('mar', newMarkupUrl?.split('/')[2])
+                const markupName = newMarkupUrl?.split('/')[2]
                 // chrome.tabs.create({
                 //   url: `./tabs/delta-flyer.html?mid=${1}`
                 // })
                 setTimeout(async () => {
                   const response = await createMarkupDetail(13, {
                     name: markupName,
-                    url: newMarkupUrl
+                    url: newMarkupUrl,
                   })
                   if (response?.status === 201) {
                     chrome.tabs.create({
-                      url: `./tabs/delta-flyer.html?id=${response?.data?.id}`
+                      url: `./tabs/delta-flyer.html?id=${response?.data?.id}`,
                     })
                   } else {
-                    console.log("markup url not found")
+                    console.log('markup url not found')
                   }
                 }, 1000)
               }}
-              className="w-fit !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-1  !text-xs !font-medium !tracking-[0.04px] !text-[#60646C] !bg-[#00003b0d] ">
+              className="w-fit !cursor-pointer !justify-start !gap-6 !h-auto !px-2 !py-1  !text-xs !font-medium !tracking-[0.04px] !text-[#60646C] !bg-[#00003b0d] "
+            >
               Create markup
             </Button>
           </Flex>
@@ -89,9 +92,10 @@ const MainWenote = ({ allMarkup, newMarkupUrl }) => {
                     className="cursor-pointer"
                     onClick={() =>
                       chrome.tabs.create({
-                        url: `./tabs/delta-flyer.html?id=${item?.id}`
+                        url: `./tabs/delta-flyer.html?id=${item?.id}`,
                       })
-                    }>
+                    }
+                  >
                     <Text className="!text-xs  !leading-5 !font-normal  !text-[#00259ecc] border-b border-solid border-[#023eeb26]">
                       {item.name}
                     </Text>

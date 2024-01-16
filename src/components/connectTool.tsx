@@ -1,5 +1,5 @@
-import { Box, Button, Flex, Heading, Text } from "@radix-ui/themes"
-import React from "react"
+import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes'
+import React from 'react'
 
 const ConnectTool = ({ cta }) => {
   return (
@@ -18,7 +18,8 @@ const ConnectTool = ({ cta }) => {
         </Button>
         <Button
           className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-white  !bg-opacity-5 !rounded justify-center items-center gap-2 inline-flex"
-          onClick={cta}>
+          onClick={cta}
+        >
           Connect
         </Button>
       </Flex>

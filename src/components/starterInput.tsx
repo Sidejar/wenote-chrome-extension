@@ -1,6 +1,6 @@
-import { ArrowUpIcon } from "@radix-ui/react-icons"
-import { Box, TextField } from "@radix-ui/themes"
-import React from "react"
+import { ArrowUpIcon } from '@radix-ui/react-icons'
+import { Box, TextField } from '@radix-ui/themes'
+import React from 'react'
 
 const StarterInput = ({ setStap }) => {
   return (
@@ -13,7 +13,8 @@ const StarterInput = ({ setStap }) => {
         />
         <TextField.Slot
           className="cursor-pointer bg-[#0144ff0f]"
-          onClick={() => setStap(2)}>
+          onClick={() => setStap(2)}
+        >
           <ArrowUpIcon width="16" height="16" />
         </TextField.Slot>
       </TextField.Root>

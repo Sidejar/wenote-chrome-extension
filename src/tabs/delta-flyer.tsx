@@ -1,22 +1,22 @@
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
-import { Box, Flex, Heading, Text, TextField, Theme } from "@radix-ui/themes"
-import React, { useEffect, useRef, useState } from "react"
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import { Box, Flex, Heading, Text, TextField, Theme } from '@radix-ui/themes'
+import React, { useEffect, useRef, useState } from 'react'
 
-import "react-quill/dist/quill.snow.css"
+import 'react-quill/dist/quill.snow.css'
 
-import Comment from "~components/comment"
-import CreateTicketModal from "~components/createTicketModal"
-import DetailModal from "~components/detailModal"
-import NoComment from "~components/noComments"
-import TextEditer from "~components/textEditer"
-import Threads from "~components/threads"
-import { getMarkupDetailsByID } from "~services/markup"
+import Comment from '~components/comment'
+import CreateTicketModal from '~components/createTicketModal'
+import DetailModal from '~components/detailModal'
+import NoComment from '~components/noComments'
+import TextEditer from '~components/textEditer'
+import Threads from '~components/threads'
+import { getMarkupDetailsByID } from '~services/markup'
 
-import "../../assets/style.css"
+import '../../assets/style.css'
 
 export default function DeltaFlyerPage() {
   const urlParams = new URLSearchParams(window.location.search)
-  const id = urlParams.get("id")
+  const id = urlParams.get('id')
   const parent = useRef()
   const iframeRef = useRef(null)
   const [markupdata, setMarkupdata] = useState<any>({})
@@ -43,11 +43,11 @@ export default function DeltaFlyerPage() {
     if (iframe) {
       iframe.onload = () => {
         setLoading(false)
-        console.log("Iframe content has loaded")
+        console.log('Iframe content has loaded')
       }
     }
   }, [])
-  console.log("co", cord)
+  console.log('co', cord)
   return (
     <Theme>
       {/* <DetailModal /> */}
@@ -97,10 +97,11 @@ export default function DeltaFlyerPage() {
                     setActiveCord({
                       isNew: true,
                       xCord: e.clientX - boxRect.left,
-                      yCord: e.clientY - boxRect.top
+                      yCord: e.clientY - boxRect.top,
                     })
                   }
-                }}></div>
+                }}
+              ></div>
               {[...cord, activeCord]?.map((data, counter) => {
                 if (Object.keys(data).length === 0) {
                   // Skip rendering empty object
@@ -117,18 +118,20 @@ export default function DeltaFlyerPage() {
                       setActiveFeedback(counter)
                     }}
                     style={{
-                      borderRadius: "100%",
-                      width: "30px",
-                      height: "30px",
-                      position: "absolute",
+                      borderRadius: '100%',
+                      width: '30px',
+                      height: '30px',
+                      position: 'absolute',
                       top: parseInt(data.yCord),
-                      left: parseInt(data.xCord)
-                    }}>
+                      left: parseInt(data.xCord),
+                    }}
+                  >
                     {isNo}
                     <div
                       className={`${
-                        activeFeedback === counter ? "block" : "hidden"
-                      } relative`}>
+                        activeFeedback === counter ? 'block' : 'hidden'
+                      } relative`}
+                    >
                       {Object.keys(data)?.length > 0 && !data?.isNew && (
                         <Threads
                           conversation={data}
@@ -150,11 +153,12 @@ export default function DeltaFlyerPage() {
               })}
               <iframe
                 ref={iframeRef}
-                src={markupdata ? markupdata?.url : ""}
+                src={markupdata ? markupdata?.url : ''}
                 width="100%" // Set width to 100% of parent element's width
                 height="100%" // Set height to 100% of parent element's height
-                style={{ border: "none" }} // Optional: Remove iframe border
-                sandbox="allow-same-origin"></iframe>
+                style={{ border: 'none' }} // Optional: Remove iframe border
+                sandbox="allow-same-origin"
+              ></iframe>
             </div>
           ) : (
             <>

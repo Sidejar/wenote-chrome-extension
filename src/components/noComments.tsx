@@ -1,6 +1,6 @@
-import { CrumpledPaperIcon } from "@radix-ui/react-icons"
-import { Box, Flex, Heading, Text } from "@radix-ui/themes"
-import React, { useState } from "react"
+import { CrumpledPaperIcon } from '@radix-ui/react-icons'
+import { Box, Flex, Heading, Text } from '@radix-ui/themes'
+import React, { useState } from 'react'
 
 const NoComment = () => {
   const [stap, setStap] = useState(1)

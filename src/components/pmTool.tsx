@@ -1,10 +1,10 @@
-import { Box, Button, Flex, Heading, Text } from "@radix-ui/themes"
-import React from "react"
+import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes'
+import React from 'react'
 
-import Asana from "../../assets/images/Asana.png"
-import Jira from "../../assets/images/jira.png"
-import Linear from "../../assets/images/Linear.png"
-import Notion from "../../assets/images/Notion.png"
+import Asana from '../../assets/images/Asana.png'
+import Jira from '../../assets/images/jira.png'
+import Linear from '../../assets/images/Linear.png'
+import Notion from '../../assets/images/Notion.png'
 
 const PmTool = ({ cta }) => {
   return (
@@ -24,7 +24,8 @@ const PmTool = ({ cta }) => {
           <Button
             variant="outline"
             onClick={cta}
-            className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-[#00259ecc]  !rounded justify-center items-center gap-2 inline-flex">
+            className="!h-8 !px-3 !text-sm !cursor-pointer !font-medium !text-[#00259ecc]  !rounded justify-center items-center gap-2 inline-flex"
+          >
             Connect
           </Button>
         </Flex>
