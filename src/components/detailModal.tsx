@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import Comment from "./comment"
 import Header from "./header"
 import StarterInput from "./starterInput"
-import TextEditer from "./textEditer"
+import TextEditer from "./textEditer" 
 
 const DetailModal = () => {
   const [stap, setStap] = useState(1)

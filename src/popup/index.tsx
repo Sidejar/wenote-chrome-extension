@@ -1,8 +1,8 @@
-import { Theme, Button } from "@radix-ui/themes"
-import React, { useCallback } from "react"
+import { Theme, Button } from '@radix-ui/themes'
+import React, { useCallback } from 'react'
 // import csui from "url:~/content/widget"
 
-import "~assets/style.css"
+import '~assets/style.css'
 
 const Popup = () => {
   const handleAdd = useCallback(async () => {
@@ -12,21 +12,21 @@ const Popup = () => {
     //   target: {
     //     tabId: tabs[0]!.id! // the tab you want to inject into
     //   },
-    //   world: 'ISOLATED', 
+    //   world: 'ISOLATED',
     //   files: [csui.replace(/chrome-extension:\/\/[a-z]*\/([^?]*)\?.*/i, '$1')], // function to inject
     // },
     // () => {
     //   console.log("Background script got callback after injection")
-    // }) 
+    // })
   }, [])
 
   return (
     <div className="w-fit shadow-xl !rounded-2xl">
-        <Theme className="!rounded-3xl">
+      <Theme className="!rounded-3xl">
         <Button size="3" variant="soft" onClick={handleAdd}>
           Add Comment
         </Button>
-        </Theme>
+      </Theme>
     </div>
   )
 }
