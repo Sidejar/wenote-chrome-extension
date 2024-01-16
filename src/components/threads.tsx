@@ -1,6 +1,5 @@
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Avatar, Box, Button, DropdownMenu, Flex, Text } from "@radix-ui/themes"
-import axios from "axios"
 import React, { useState } from "react"
 import ReactQuill from "react-quill"
 

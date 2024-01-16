@@ -1,0 +1,28 @@
+{
+	"extends": ["prettier"],
+	"plugins": ["react", "prettier", "@ianvs/prettier-plugin-sort-imports"],
+	"rules": {
+		"react-hooks/exhaustive-deps": "warn",
+		"prettier/prettier": [
+			"error",
+			{
+				"singleQuote": true,
+				"trailingComma": "all",
+				"endOfLine": "auto",
+				"semi": false
+			}
+		],
+		"importOrder": [
+            "<BUILTIN_MODULES>", // Node.js built-in modules
+            "<THIRD_PARTY_MODULES>", // Imports not matched by other special words or groups.
+            "", // Empty line
+            "^@plasmo/(.*)$",
+            "",
+            "^@plasmohq/(.*)$",
+            "",
+            "^~(.*)$",
+            "",
+            "^[./]"
+          ]
+	}
+}
