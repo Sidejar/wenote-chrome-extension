@@ -1,28 +1,24 @@
-import { Theme, Button } from '@radix-ui/themes'
-import type { PlasmoGetOverlayAnchor } from 'plasmo'
 import React from 'react'
+import type { PlasmoGetStyle } from 'plasmo'
+import type { PlasmoGetOverlayAnchor } from 'plasmo'
+
+import '~components/csui/styles.scss'
 import '@radix-ui/themes/styles.css'
 
-import styleText from 'data-text:@radix-ui/themes/styles.css'
-import type { PlasmoGetStyle } from 'plasmo'
-import { BookmarkIcon } from '@radix-ui/react-icons'
+import styles from 'data-text:~components/csui/styles.scss'
+import radixStyles from 'data-text:@radix-ui/themes/styles.css'
+import { CSUI } from '~components/csui'
 
 export const getStyle: PlasmoGetStyle = () => {
   const style = document.createElement('style')
-  style.textContent = styleText
+  style.textContent = `${radixStyles} ${styles}`
   return style
 }
 
 export const getOverlayAnchor: PlasmoGetOverlayAnchor = () => document.body
 
-const CustomButton = () => {
-  return (
-    <Theme className="!rounded-3xl">
-      <Button>
-        <BookmarkIcon width="16" height="16" /> Bookmark
-      </Button>
-    </Theme>
-  )
+const ContentUI = () => {
+  return <CSUI />
 }
 
-export default CustomButton
+export default ContentUI

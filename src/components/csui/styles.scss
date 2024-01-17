@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+.anchor {
+    margin-left: -22px;
+    margin-top: -22px;
+}
+
+.popout {
+    width: 265px;
+    margin: 0px 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #EBEBEF;
+    background-color: #fff;
+    box-shadow: 0px 8px 40px 0px rgba(0, 0, 61, 0.05), 0px 12px 32px -16px rgba(0, 0, 0, 0.05);
+
+    textarea {
+        font-family: inherit;
+        font-size: 14px;
+        border: none;
+        width: 100%;
+        padding: 10px;
+        resize: none;
+        outline: none;
+    }
+}

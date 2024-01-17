@@ -1,5 +1,5 @@
 import { CrumpledPaperIcon } from '@radix-ui/react-icons'
-import { Box, Flex, Heading, Text } from '@radix-ui/themes'
+import { Box, Heading, Text } from '@radix-ui/themes'
 import React, { useState } from 'react'
 
 const NoComment = () => {

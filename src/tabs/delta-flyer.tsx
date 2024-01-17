@@ -6,13 +6,10 @@ import 'react-quill/dist/quill.snow.css'
 
 import Comment from '~components/comment'
 import CreateTicketModal from '~components/createTicketModal'
-import DetailModal from '~components/detailModal'
 import NoComment from '~components/noComments'
 import TextEditer from '~components/textEditer'
 import Threads from '~components/threads'
 import { getMarkupDetailsByID } from '~services/markup'
-
-import '../../assets/style.css'
 
 export default function DeltaFlyerPage() {
   const urlParams = new URLSearchParams(window.location.search)
