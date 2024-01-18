@@ -5,8 +5,10 @@ import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
+import { useAuthContext } from '~contexts/auth'
 
 export const Composer: React.FC<Props> = ({ coordinates }) => {
+  const { user } = useAuthContext()
   const [isFocused, setFocused] = useState(false)
   const [comment, setComment] = useState('')
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
@@ -45,8 +47,8 @@ export const Composer: React.FC<Props> = ({ coordinates }) => {
           className="popout"
         >
           <textarea
-            placeholder="Write a comment"
             rows={isFocused ? 4 : 1}
+            placeholder="Write a comment"
             onFocus={() => setFocused(true)}
             onBlur={() => comment.length === 0 && setFocused(false)}
             value={comment}

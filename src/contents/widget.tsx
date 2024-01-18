@@ -10,6 +10,7 @@ import radixStyles from 'data-text:@radix-ui/themes/styles.css'
 import { CSUI } from '~components/csui'
 import { useMessage } from '@plasmohq/messaging/hook'
 import type { User } from 'firebase/auth'
+import { AuthContext } from '~contexts/auth'
 
 export const getStyle: PlasmoGetStyle = () => {
   const style = document.createElement('style')
@@ -24,10 +25,13 @@ const ContentUI = () => {
     res.send(req.body)
   })
 
-  console.log(data)
   if (!data) return null
 
-  return <CSUI />
+  return (
+    <AuthContext.Provider value={{ user: data }}>
+      <CSUI />
+    </AuthContext.Provider>
+  )
 }
 
 export default ContentUI
