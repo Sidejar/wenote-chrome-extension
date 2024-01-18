@@ -4,7 +4,7 @@ import {
   onAuthStateChanged,
   setPersistence,
   signInWithCredential,
-  User,
+  type User,
 } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { useEffect, useMemo, useState } from 'react'

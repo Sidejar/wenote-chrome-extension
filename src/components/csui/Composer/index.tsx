@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Box, Button, Flex, Separator } from '@radix-ui/themes'
+import { Box, Flex, IconButton, Separator } from '@radix-ui/themes'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
+import { PaperPlaneIcon } from '@radix-ui/react-icons'
 
 export const Composer: React.FC<Props> = ({ coordinates }) => {
   const [isFocused, setFocused] = useState(false)
@@ -26,7 +27,13 @@ export const Composer: React.FC<Props> = ({ coordinates }) => {
         height="0"
         style={{ left: coordinates.x, top: coordinates.y }}
       >
-        <img ref={setReferenceElement} src={anchorIcon} width={44} height={44} className="anchor" />
+        <img
+          ref={setReferenceElement}
+          src={anchorIcon}
+          width={44}
+          height={44}
+          className="anchor"
+        />
         <motion.div
           ref={setPopperElement}
           style={styles.popper}
@@ -49,7 +56,9 @@ export const Composer: React.FC<Props> = ({ coordinates }) => {
             <>
               <Separator size="4" />
               <Flex p="2" justify="end">
-                <Button>Send</Button>
+                <IconButton>
+                  <PaperPlaneIcon />
+                </IconButton>
               </Flex>
             </>
           )}
