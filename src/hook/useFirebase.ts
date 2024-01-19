@@ -7,6 +7,7 @@ import {
   type User,
 } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 import { useEffect, useMemo, useState } from 'react'
 
 import { app, auth } from '~services/firebase'
@@ -18,6 +19,8 @@ export const useFirebase = () => {
   const [user, setUser] = useState<User>(null)
 
   const firestore = useMemo(() => (user ? getFirestore(app) : null), [user])
+
+  const storage = useMemo(() => (user ? getStorage(app) : null), [user])
 
   const onLogout = async () => {
     setIsLoading(true)
@@ -56,6 +59,7 @@ export const useFirebase = () => {
     isLoading,
     user,
     firestore,
+    storage,
     onLogin,
     onLogout,
   }

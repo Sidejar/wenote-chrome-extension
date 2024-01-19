@@ -1,5 +1,5 @@
 import React from 'react'
-import type { PlasmoGetStyle } from 'plasmo'
+import type { PlasmoCSConfig, PlasmoGetStyle } from 'plasmo'
 import type { PlasmoGetOverlayAnchor } from 'plasmo'
 
 import '~components/csui/styles.scss'

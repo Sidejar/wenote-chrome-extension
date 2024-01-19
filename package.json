@@ -64,7 +64,7 @@
           "<all_urls>"
         ],
         "resources": [
-          "tabs/delta-flyer.html"
+          "tabs/summary.html"
         ],
         "extension_ids": [
           "$CRX_ID"
