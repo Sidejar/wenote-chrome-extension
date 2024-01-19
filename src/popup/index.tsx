@@ -1,11 +1,11 @@
 import { Theme, Button } from '@radix-ui/themes'
 import React, { useCallback } from 'react'
 import { sendToContentScript } from '@plasmohq/messaging'
-import { useFirebase } from '~hook/useFirebase'
 import { AuthContext } from '~contexts/auth'
+import { useSocialLogin } from '~hook/useSocialLogin'
 
 const Popup = () => {
-  const { user } = useFirebase()
+  const { user, onGoogleLogin } = useSocialLogin()
 
   const handleAdd = useCallback(async () => {
     sendToContentScript({
@@ -17,6 +17,9 @@ const Popup = () => {
   return (
     <AuthContext.Provider value={{ user }}>
       <Theme>
+        <Button size="3" variant="soft" onClick={onGoogleLogin}>
+          Login with Google
+        </Button>
         <Button size="3" variant="soft" onClick={handleAdd}>
           Add Comment
         </Button>

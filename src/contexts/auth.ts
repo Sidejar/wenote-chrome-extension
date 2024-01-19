@@ -1,8 +1,9 @@
-import type { User } from 'firebase/auth'
 import { createContext, useContext } from 'react'
+import type { IUser } from '~models'
 
 export interface AuthContextInterface {
-  user: User
+  user: IUser
+  token: string
 }
 
 export const AuthContext = createContext<AuthContextInterface>(

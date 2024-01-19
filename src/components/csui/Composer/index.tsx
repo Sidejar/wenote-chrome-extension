@@ -5,22 +5,10 @@ import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithCredential,
-  signInWithCustomToken,
-} from 'firebase/auth'
 import { useAuthContext } from '~contexts/auth'
-import { app } from '~services/firebase'
-import { useFirebase } from '~hook/useFirebase'
-import { addDoc, collection } from 'firebase/firestore'
-
-const auth = getAuth(app)
 
 export const Composer: React.FC<Props> = ({ coordinates }) => {
   const { user } = useAuthContext()
-  const { firestore } = useFirebase()
   const [isFocused, setFocused] = useState(false)
   const [comment, setComment] = useState('')
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
@@ -39,16 +27,16 @@ export const Composer: React.FC<Props> = ({ coordinates }) => {
     //   null,
     //   user.stsTokenManager.accessToken,
     // )
-    signInWithCustomToken(auth, user.stsTokenManager.accessToken)
-      .then((userCredential) => {
-        const user = userCredential.user
-        console.log('worked', user)
-      })
-      .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log(errorCode, errorMessage)
-      })
+    // signInWithCustomToken(auth, user.stsTokenManager.accessToken)
+    //   .then((userCredential) => {
+    //     const user = userCredential.user
+    //     console.log('worked', user)
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code
+    //     const errorMessage = error.message
+    //     console.log(errorCode, errorMessage)
+    //   })
   }, [user])
 
   return (
