@@ -1,31 +1,48 @@
-import { Theme, Button } from '@radix-ui/themes'
-import React, { useCallback } from 'react'
-import { sendToContentScript } from '@plasmohq/messaging'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AuthContext } from '~contexts/auth'
-import { useSocialLogin } from '~hook/useSocialLogin'
+import { Popup } from '~components/popup'
+import type { IUser } from '~models'
+import { Storage } from '@plasmohq/storage'
 
-const Popup = () => {
-  const { user, onGoogleLogin } = useSocialLogin()
+const storage = new Storage()
 
-  const handleAdd = useCallback(async () => {
-    sendToContentScript({
-      name: 'widget',
-      body: user,
-    })
-  }, [user])
+const Root = () => {
+  const [user, setUser] = useState<IUser>()
+  const [token, setToken] = useState<string>()
+
+  useEffect(() => {
+    storage.get<IUser>('user').then(setUser)
+    storage.get('token').then(setToken)
+  }, [])
+
+  const handleUser = useCallback((user: IUser) => {
+    storage.set('user', user)
+    setUser(user)
+  }, [])
+
+  const handleToken = useCallback((token: string) => {
+    storage.set('token', token)
+    setToken(token)
+  }, [])
+
+  const handleLogout = useCallback(() => {
+    setUser(undefined)
+    setToken(undefined)
+  }, [])
 
   return (
-    <AuthContext.Provider value={{ user }}>
-      <Theme>
-        <Button size="3" variant="soft" onClick={onGoogleLogin}>
-          Login with Google
-        </Button>
-        <Button size="3" variant="soft" onClick={handleAdd}>
-          Add Comment
-        </Button>
-      </Theme>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser: handleUser,
+        token,
+        setToken: handleToken,
+        logout: handleLogout,
+      }}
+    >
+      <Popup />
     </AuthContext.Provider>
   )
 }
 
-export default Popup
+export default Root

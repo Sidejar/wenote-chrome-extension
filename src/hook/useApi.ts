@@ -25,7 +25,7 @@ interface ApiError {
 
 export default function useApi() {
   const api = useMemo(() => new Api(), [])
-  const { token } = useAuthContext()
+  const { token, logout } = useAuthContext()
   const [status, setStatus] = useState<API_STATUS>('default')
   const [error, setError] = useState<string | null>(null)
 

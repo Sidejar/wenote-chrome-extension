@@ -1,10 +1,13 @@
 import { useCallback, useState } from 'react'
+import useApi from './useApi'
+import { useAuthContext } from '~contexts/auth'
 
 export const useSocialLogin = () => {
+  const { api } = useApi()
   const [isLoading, setIsLoading] = useState(false)
+  const { setToken, setUser } = useAuthContext()
 
   const onGoogleLogin = useCallback(() => {
-    console.log('google login')
     setIsLoading(true)
     chrome.identity.getAuthToken({ interactive: true }, (token) => {
       if (chrome.runtime.lastError || !token) {
@@ -12,12 +15,14 @@ export const useSocialLogin = () => {
         setIsLoading(false)
         return
       }
-      console.log(token)
+      api.auth.googleLogin(token).then((response) => {
+        setToken(response.token)
+        setUser(response.user)
+      })
     })
-  }, [])
+  }, [api, setToken, setUser])
 
   return {
-    user: {},
     isLoading,
     onGoogleLogin,
   }

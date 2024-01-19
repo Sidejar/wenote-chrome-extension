@@ -1,5 +1,5 @@
 import React from 'react'
-import type { PlasmoCSConfig, PlasmoGetStyle } from 'plasmo'
+import type { PlasmoGetStyle } from 'plasmo'
 import type { PlasmoGetOverlayAnchor } from 'plasmo'
 
 import '~components/csui/styles.scss'
@@ -20,7 +20,7 @@ export const getStyle: PlasmoGetStyle = () => {
 
 export const getOverlayAnchor: PlasmoGetOverlayAnchor = () => document.body
 
-const ContentUI = () => {
+const Root = () => {
   const { data } = useMessage<IUser, IUser>((req, res) => {
     res.send(req.body)
   })
@@ -34,4 +34,4 @@ const ContentUI = () => {
   )
 }
 
-export default ContentUI
+export default Root
