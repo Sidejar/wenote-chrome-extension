@@ -11,6 +11,7 @@ import { CSUI } from '~components/csui'
 import { useMessage } from '@plasmohq/messaging/hook'
 import { AuthContext } from '~contexts/auth'
 import type { IUser } from '~models'
+import { useStorage } from '@plasmohq/storage/hook'
 
 export const getStyle: PlasmoGetStyle = () => {
   const style = document.createElement('style')
@@ -21,14 +22,13 @@ export const getStyle: PlasmoGetStyle = () => {
 export const getOverlayAnchor: PlasmoGetOverlayAnchor = () => document.body
 
 const Root = () => {
-  const { data } = useMessage<IUser, IUser>((req, res) => {
-    res.send(req.body)
-  })
+  const [user] = useStorage<IUser>('user')
+  const [token] = useStorage<string>('token')
 
-  if (!data) return null
+  if (user) return null
 
   return (
-    <AuthContext.Provider value={{ user: data }}>
+    <AuthContext.Provider value={{ user, token }}>
       <CSUI />
     </AuthContext.Provider>
   )
