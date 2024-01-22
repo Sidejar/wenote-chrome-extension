@@ -1,4 +1,6 @@
+import type { NotesMeta } from '~services/Api/notes.service'
+
 export interface Props {
-  coordinates?: { x: number; y: number }
-  onSend: (note: string) => Promise<void>
+  meta: NotesMeta
+  onSend: () => void
 }

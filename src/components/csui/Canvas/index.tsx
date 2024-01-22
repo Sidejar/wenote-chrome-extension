@@ -1,20 +1,18 @@
-import { Box } from '@radix-ui/themes'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { Composer } from '../Composer'
+import type { NotesMeta } from '~services/Api/notes.service'
 
 export const Canvas: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)
-  const [coordinates, setCoordinates] = useState<{
-    position: number[]
-    dimensions: number[]
-    scroll: number[]
-  }>()
+  const [meta, setMeta] = useState<NotesMeta>()
+
+  const handleSend = useCallback(() => {}, [])
 
   useEffect(() => {
     ref.current &&
       ref.current.addEventListener('click', (e: MouseEvent) => {
-        setCoordinates({
+        setMeta({
           position: [e.clientX, e.clientY],
           scroll: [window.scrollX, window.scrollY],
           dimensions: [window.innerWidth, window.innerHeight],
@@ -25,14 +23,7 @@ export const Canvas: React.FC = () => {
   return (
     <>
       <div ref={ref} className="blocker" />
-      {coordinates && (
-        <Composer
-          coordinates={{
-            x: coordinates.position[0] + coordinates.scroll[0],
-            y: coordinates.position[1] + coordinates.scroll[1],
-          }}
-        />
-      )}
+      {meta && <Composer onSend={handleSend} meta={meta} />}
     </>
   )
 }

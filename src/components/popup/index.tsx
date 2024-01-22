@@ -11,9 +11,9 @@ export const Popup: React.FC = () => {
   const handleAdd = useCallback(async () => {
     sendToContentScript({
       name: 'widget',
-      body: user,
+      body: { hide: false },
     })
-  }, [user])
+  }, [])
 
   return (
     <Theme>

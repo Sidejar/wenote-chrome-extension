@@ -1,11 +1,13 @@
 import axios, { type AxiosInstance } from 'axios'
 import { env } from '~env'
 import { AuthService } from './auth.service'
+import { NotesService } from './notes.service'
 
 export default class Api {
   client: AxiosInstance
 
   auth: AuthService
+  notes: NotesService
 
   constructor() {
     // build client
@@ -14,5 +16,6 @@ export default class Api {
     })
 
     this.auth = new AuthService(this.client)
+    this.notes = new NotesService(this.client)
   }
 }

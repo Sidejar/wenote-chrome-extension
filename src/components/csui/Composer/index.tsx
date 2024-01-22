@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Box, Flex, IconButton, Separator } from '@radix-ui/themes'
+import { Flex, IconButton, Separator } from '@radix-ui/themes'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { sendToBackground } from '@plasmohq/messaging'
+import useApi from '~hook/useApi'
+import { dataURLtoFile } from '~services/utils'
 
-export const Composer: React.FC<Props> = ({ coordinates, onSend }) => {
+export const Composer: React.FC<Props> = ({ meta, onSend }) => {
+  const { api, status } = useApi()
   const [isFocused, setFocused] = useState(false)
   const [comment, setComment] = useState('')
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
@@ -29,17 +32,30 @@ export const Composer: React.FC<Props> = ({ coordinates, onSend }) => {
       name: 'capture',
       body: {},
     })
-  }, [])
+
+    const data = new FormData()
+    data.append('image', dataURLtoFile(image))
+    data.append('note', comment)
+    data.append('url', window.location.href)
+    data.append('position', meta.position.join(','))
+    data.append('dimensions', meta.dimensions.join(','))
+    data.append('scroll', meta.scroll.join(','))
+
+    api.notes.saveNote(data)
+  }, [comment, meta, api])
 
   useEffect(() => {
     update && update()
-  }, [coordinates, update])
+  }, [meta.position, update])
 
   return (
     <AnimatePresence>
       <div
         className="anchor"
-        style={{ left: coordinates.x, top: coordinates.y }}
+        style={{
+          left: meta.position[0] + meta.scroll[0],
+          top: meta.position[1] + meta.scroll[1],
+        }}
       >
         <img
           ref={setReferenceElement}
