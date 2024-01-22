@@ -1,26 +1,38 @@
-import { Box, Button } from '@radix-ui/themes'
-import React, { useState } from 'react'
+import { Box } from '@radix-ui/themes'
+import React, { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { Composer } from '../Composer'
 
 export const Canvas: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null)
   const [coordinates, setCoordinates] = useState<{
-    x: number
-    y: number
+    position: number[]
+    dimensions: number[]
+    scroll: number[]
   }>()
 
   useEffect(() => {
-    document.body.addEventListener('click', (e: MouseEvent) => {
-      //e.preventDefault()
-      //e.stopPropagation()
-      console.log(e.clientX, e.clientY)
-      setCoordinates({ x: e.clientX, y: e.clientY })
-    })
+    ref.current &&
+      ref.current.addEventListener('click', (e: MouseEvent) => {
+        setCoordinates({
+          position: [e.clientX, e.clientY],
+          scroll: [window.scrollX, window.scrollY],
+          dimensions: [window.innerWidth, window.innerHeight],
+        })
+      })
   }, [])
 
   return (
-    <Box width="100%" height="100%">
-      {coordinates && <Composer coordinates={coordinates} />}
-    </Box>
+    <>
+      <div ref={ref} className="blocker" />
+      {coordinates && (
+        <Composer
+          coordinates={{
+            x: coordinates.position[0] + coordinates.scroll[0],
+            y: coordinates.position[1] + coordinates.scroll[1],
+          }}
+        />
+      )}
+    </>
   )
 }

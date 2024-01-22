@@ -1,14 +1,13 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Box, Flex, IconButton, Separator } from '@radix-ui/themes'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
-import { useAuthContext } from '~contexts/auth'
+import { sendToBackground } from '@plasmohq/messaging'
 
-export const Composer: React.FC<Props> = ({ coordinates }) => {
-  const { user } = useAuthContext()
+export const Composer: React.FC<Props> = ({ coordinates, onSend }) => {
   const [isFocused, setFocused] = useState(false)
   const [comment, setComment] = useState('')
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
@@ -17,34 +16,29 @@ export const Composer: React.FC<Props> = ({ coordinates }) => {
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
     null,
   )
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: 'right-start',
-  })
+  const { styles, attributes, update } = usePopper(
+    referenceElement,
+    popperElement,
+    {
+      placement: 'right-start',
+    },
+  )
 
   const handleSend = useCallback(async () => {
-    //  const token = await user.getIdToken()
-    // const credentials = GoogleAuthProvider.credential(
-    //   null,
-    //   user.stsTokenManager.accessToken,
-    // )
-    // signInWithCustomToken(auth, user.stsTokenManager.accessToken)
-    //   .then((userCredential) => {
-    //     const user = userCredential.user
-    //     console.log('worked', user)
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code
-    //     const errorMessage = error.message
-    //     console.log(errorCode, errorMessage)
-    //   })
-  }, [user])
+    const { message: image } = await sendToBackground({
+      name: 'capture',
+      body: {},
+    })
+  }, [])
+
+  useEffect(() => {
+    update && update()
+  }, [coordinates, update])
 
   return (
     <AnimatePresence>
-      <Box
-        position="absolute"
-        width="0"
-        height="0"
+      <div
+        className="anchor"
         style={{ left: coordinates.x, top: coordinates.y }}
       >
         <img
@@ -52,7 +46,7 @@ export const Composer: React.FC<Props> = ({ coordinates }) => {
           src={anchorIcon}
           width={44}
           height={44}
-          className="anchor"
+          className="icon"
         />
         <motion.div
           ref={setPopperElement}
@@ -86,7 +80,7 @@ export const Composer: React.FC<Props> = ({ coordinates }) => {
             </>
           )}
         </motion.div>
-      </Box>
+      </div>
     </AnimatePresence>
   )
 }

@@ -8,7 +8,6 @@ import '@radix-ui/themes/styles.css'
 import styles from 'data-text:~components/csui/styles.scss'
 import radixStyles from 'data-text:@radix-ui/themes/styles.css'
 import { CSUI } from '~components/csui'
-import { useMessage } from '@plasmohq/messaging/hook'
 import { AuthContext } from '~contexts/auth'
 import type { IUser } from '~models'
 import { useStorage } from '@plasmohq/storage/hook'
@@ -19,13 +18,11 @@ export const getStyle: PlasmoGetStyle = () => {
   return style
 }
 
-export const getOverlayAnchor: PlasmoGetOverlayAnchor = () => document.body
-
 const Root = () => {
   const [user] = useStorage<IUser>('user')
   const [token] = useStorage<string>('token')
 
-  if (user) return null
+  if (!user) return null
 
   return (
     <AuthContext.Provider value={{ user, token }}>
