@@ -37,9 +37,7 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
     data.append('image', dataURLtoFile(image))
     data.append('note', comment)
     data.append('url', window.location.href)
-    data.append('position', meta.position.join(','))
-    data.append('dimensions', meta.dimensions.join(','))
-    data.append('scroll', meta.scroll.join(','))
+    data.append('meta', JSON.stringify(meta))
 
     api.notes.saveNote(data)
   }, [comment, meta, api])
