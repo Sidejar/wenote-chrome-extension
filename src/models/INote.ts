@@ -1,6 +1,12 @@
 import type { IUser } from './IUser'
 import type { IWebsite } from './IWebsite'
 
+export interface NotesMeta {
+  position: number[]
+  dimensions: number[]
+  scroll: number[]
+}
+
 export type INote = {
   id: string
 
@@ -12,11 +18,13 @@ export type INote = {
 
   status: number
 
-  meta: object
+  meta: NotesMeta
 
   user: IUser
 
-  website: IWebsite
+  website?: IWebsite
+
+  comments?: number
 
   createdAt: string
 

@@ -1,3 +1,5 @@
+import type { INote } from './INote'
+
 export type IUser = {
   id: number
 
@@ -7,7 +9,7 @@ export type IUser = {
 
   email: string
 
-  notes: Note[]
+  notes: INote[]
 
   createdAt: string
 }

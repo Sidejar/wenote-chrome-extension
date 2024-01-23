@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { Composer } from '../Composer'
-import type { NotesMeta } from '~services/Api/notes.service'
+import type { NotesMeta } from '~models'
 
 export const Canvas: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)

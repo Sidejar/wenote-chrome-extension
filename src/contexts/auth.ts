@@ -4,7 +4,7 @@ import type { IUser } from '~models'
 export interface AuthContextInterface {
   user?: IUser
   token?: string
-  logout: () => void
+  logout?: () => void
 }
 
 export const AuthContext = createContext<AuthContextInterface>(

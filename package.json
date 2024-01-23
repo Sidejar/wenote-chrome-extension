@@ -65,7 +65,7 @@
           "<all_urls>"
         ],
         "resources": [
-          "tabs/summary.html"
+          "tabs/note.html"
         ],
         "extension_ids": [
           "$CRX_ID"
