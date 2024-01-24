@@ -8,6 +8,7 @@ export const Editor: React.FC<Props> = ({ onSend, ...rest }) => {
 
   const handleSend = useCallback(() => {
     onSend(value)
+    setValue('')
   }, [onSend, value])
 
   return (

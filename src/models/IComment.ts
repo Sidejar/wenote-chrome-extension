@@ -8,9 +8,9 @@ export type IComment = {
 
   user: IUser
 
-  note: INote
+  note?: INote
 
-  createdAt: Date
+  createdAt: string
 
-  updatedAt: Date
+  updatedAt: string
 }

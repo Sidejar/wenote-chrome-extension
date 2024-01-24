@@ -48,4 +48,10 @@ body {
         max-height: 300px;
         padding-top: var(--space-3, 12px);
     }
+
+    .editor {
+        overflow: hidden;
+        border-radius: var(--radius-4);
+        border: 1px solid var(--gray-4);
+    }
 }
