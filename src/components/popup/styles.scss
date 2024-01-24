@@ -1,0 +1,16 @@
+.popup {
+    width: 300px;
+    padding: var(--space-5);
+    row-gap: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .cta {
+        width: 100%;
+    }
+
+    .history {
+        width: 100%;
+    }
+}

@@ -22,7 +22,9 @@ export const Canvas: React.FC = () => {
 
   return (
     <>
-      <div ref={ref} className="blocker" />
+      <div ref={ref} className="blocker">
+        {meta ? '' : 'Click anywhere to add note'}
+      </div>
       {meta && <Composer onSend={handleSend} meta={meta} />}
     </>
   )

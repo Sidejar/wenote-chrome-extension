@@ -1,6 +1,11 @@
 import type { AxiosInstance } from 'axios'
 import type { INote, IComment } from '~models'
 
+export interface Summary {
+  name: string
+  count: number
+}
+
 export class NotesService {
   constructor(private instance: AxiosInstance) {}
 
@@ -18,5 +23,10 @@ export class NotesService {
   getComments = (id: string) =>
     this.instance
       .get<IComment[]>(`/notes/${id}/comments`)
+      .then((response) => response.data)
+
+  getSummary = () =>
+    this.instance
+      .get<Summary[]>(`/notes/summary`)
       .then((response) => response.data)
 }

@@ -4,6 +4,7 @@ import { Popup } from '~components/popup'
 import type { IUser } from '~models'
 import { useStorage } from '@plasmohq/storage/hook'
 import '@radix-ui/themes/styles.css'
+import '~components/popup/styles.scss'
 
 const Root = () => {
   const [user] = useStorage<IUser>('user')
