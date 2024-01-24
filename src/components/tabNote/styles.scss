@@ -1,3 +1,5 @@
+@import url(../global.scss);
+
 body {
     margin: 0;
     padding: 0;
@@ -18,8 +20,32 @@ body {
         width: 0px;
         height: 0px;
 
-        .icon {
-            margin-top: -44px;
+        .pointer {
+            margin-top: -36px;
+            cursor: pointer;
         }
+    }
+}
+
+.thread {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0px 12px;
+    padding: 0px var(--space-3) var(--space-3) var(--space-3);
+    border-radius: var(--radius-4, 8px);
+    background: var(--color-panel-solid);
+    box-shadow: var(--shadow-5);
+
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-4) 0px;
+    }
+
+    .list {
+        max-height: 300px;
+        padding-top: var(--space-3, 12px);
     }
 }

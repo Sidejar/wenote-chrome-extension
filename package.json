@@ -8,7 +8,7 @@
     "stapleup"
   ],
   "scripts": {
-    "dev": "rm -R build && plasmo dev",
+    "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package"
   },

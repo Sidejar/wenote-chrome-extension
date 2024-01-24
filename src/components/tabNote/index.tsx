@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Theme, Text, Flex } from '@radix-ui/themes'
 import useApi from '~hook/useApi'
 import type { INote } from '~models'
-import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
+import { usePopper } from 'react-popper'
+import { Thread } from './Thread'
 
 export const TabNote: React.FC = () => {
   const { api, status } = useApi()
@@ -25,16 +26,38 @@ export const TabNote: React.FC = () => {
     [note?.meta],
   )
 
+  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
+    null,
+  )
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
+    null,
+  )
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    placement: 'right-start',
+  })
+
   return (
     <Theme>
       <div className="container">
         <img src={note?.screenshot} className="image" />
-        <span
-          className="anchor"
-          style={{ left: `${xPosition}%`, top: `${yPosition}%` }}
-        >
-          <img src={anchorIcon} width={44} height={44} className="icon" />
-        </span>
+        {note && (
+          <span
+            className="anchor"
+            style={{ left: `${xPosition}%`, top: `${yPosition}%` }}
+          >
+            <span className="pointer" ref={setReferenceElement}>
+              <Text size="2" weight="bold">
+                {(note?.comments || 0) + 1}
+              </Text>
+            </span>
+            <Thread
+              ref={setPopperElement}
+              note={note}
+              style={styles.popper}
+              {...attributes.popper}
+            />
+          </span>
+        )}
       </div>
       <Flex p="5" justify="center">
         <Text>

@@ -1,0 +1,25 @@
+.pointer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 46px 46px 46px 0px;
+    border: 1px solid var(--accent-4);
+    background: var(--accent-9);
+    box-shadow: var(--shadow-2);
+    width: 36px;
+    height: 36px;
+    color: white;
+}
+
+.editor {
+    textarea {
+        display: block;
+        font-family: inherit;
+        font-size: 14px;
+        border: none;
+        width: 100%;
+        padding: 12px 10px;
+        resize: none;
+        outline: none;
+    }
+}

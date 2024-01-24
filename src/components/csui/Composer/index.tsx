@@ -1,18 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Flex, IconButton, Separator } from '@radix-ui/themes'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
-import { PaperPlaneIcon } from '@radix-ui/react-icons'
 import { sendToBackground } from '@plasmohq/messaging'
 import useApi from '~hook/useApi'
 import { dataURLtoFile } from '~services/utils'
+import { Editor } from '~components/common/Editor'
 
 export const Composer: React.FC<Props> = ({ meta, onSend }) => {
   const { api, status } = useApi()
-  const [isFocused, setFocused] = useState(false)
-  const [comment, setComment] = useState('')
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null,
   )
@@ -27,20 +24,23 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
     },
   )
 
-  const handleSend = useCallback(async () => {
-    const { message: image } = await sendToBackground({
-      name: 'capture',
-      body: {},
-    })
+  const handleSend = useCallback(
+    async (value: string) => {
+      const { message: image } = await sendToBackground({
+        name: 'capture',
+        body: {},
+      })
 
-    const data = new FormData()
-    data.append('image', dataURLtoFile(image))
-    data.append('note', comment)
-    data.append('url', window.location.href)
-    data.append('meta', JSON.stringify(meta))
+      const data = new FormData()
+      data.append('image', dataURLtoFile(image))
+      data.append('note', value)
+      data.append('url', window.location.href)
+      data.append('meta', JSON.stringify(meta))
 
-    api.notes.saveNote(data)
-  }, [comment, meta, api])
+      api.notes.saveNote(data)
+    },
+    [meta, api],
+  )
 
   useEffect(() => {
     update && update()
@@ -72,27 +72,7 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
           transition={{ ease: 'easeOut', duration: 0.2 }}
           className="popout"
         >
-          <textarea
-            rows={isFocused ? 4 : 1}
-            placeholder="Write a comment"
-            onFocus={() => setFocused(true)}
-            onBlur={() => comment.length === 0 && setFocused(false)}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          {isFocused && (
-            <>
-              <Separator size="4" />
-              <Flex p="2" justify="end">
-                <IconButton
-                  disabled={comment.length === 0}
-                  onClick={handleSend}
-                >
-                  <PaperPlaneIcon />
-                </IconButton>
-              </Flex>
-            </>
-          )}
+          <Editor onSend={handleSend} />
         </motion.div>
       </div>
     </AnimatePresence>
