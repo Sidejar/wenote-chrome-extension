@@ -14,6 +14,8 @@ import { useSocialLogin } from '~hook/useSocialLogin'
 import logo from 'data-base64:~assets/images/wenote-logo.svg'
 import type { Summary } from '~services/Api/notes.service'
 import useApi from '~hook/useApi'
+import type { CSUIEvent } from '~components/csui/types'
+import { DateTime } from 'luxon'
 
 export const Popup: React.FC = () => {
   const { api } = useApi()
@@ -26,9 +28,12 @@ export const Popup: React.FC = () => {
   }, [api, user])
 
   const handleAdd = useCallback(async () => {
-    sendToContentScript({
+    sendToContentScript<{ event: CSUIEvent; time: number }>({
       name: 'widget',
-      body: true,
+      body: {
+        event: 'launchWidget',
+        time: DateTime.now(),
+      },
     })
     window.close()
   }, [])

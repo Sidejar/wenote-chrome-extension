@@ -22,7 +22,7 @@ export const Canvas: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div ref={ref} className="blocker">
+      <div key="blocker" ref={ref} className="blocker">
         <Text>{meta ? '' : 'Click anywhere to add note'}</Text>
       </div>
       {meta && <Composer meta={meta} />}

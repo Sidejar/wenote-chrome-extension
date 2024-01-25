@@ -62,7 +62,7 @@ export const Thread = forwardRef<HTMLDivElement, Props>(
         <div className="topbar">
           <span />
           <Flex gap="3">
-            <Tooltip content="Copy link">
+            <Tooltip delayDuration={0} content="Copy link">
               <IconButton
                 variant="ghost"
                 color="gray"

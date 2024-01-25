@@ -2,17 +2,19 @@ import React, { useCallback, useEffect, useState } from 'react'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { motion } from 'framer-motion'
-import { sendToBackground, sendToContentScript } from '@plasmohq/messaging'
+import { sendToBackground } from '@plasmohq/messaging'
 import useApi from '~hook/useApi'
 import { copyShareUrl, dataURLtoFile } from '~services/utils'
 import { Editor } from '~components/common/Editor'
 import { Button, Flex, IconButton, Text } from '@radix-ui/themes'
 import { Cross2Icon, PaperPlaneIcon } from '@radix-ui/react-icons'
 import type { INote } from '~models'
+import { useWidgetContext } from '~contexts/widget'
 
 export const Composer: React.FC<Props> = ({ meta }) => {
   const { api, status } = useApi()
   const [note, setNote] = useState<string>('')
+  const { setWidgetVisible } = useWidgetContext()
   const [isCapturing, setIsCapturing] = useState(false)
   const [postedNote, setPostedNote] = useState<INote>()
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
@@ -60,11 +62,8 @@ export const Composer: React.FC<Props> = ({ meta }) => {
   }, [postedNote])
 
   const handleClose = useCallback(() => {
-    sendToContentScript({
-      name: 'widget',
-      body: { hide: true },
-    })
-  }, [])
+    setWidgetVisible(false)
+  }, [setWidgetVisible])
 
   useEffect(() => {
     update && update()
@@ -102,7 +101,7 @@ export const Composer: React.FC<Props> = ({ meta }) => {
             >
               <Cross2Icon />
             </IconButton>
-            <Editor value={note} onChange={setNote}>
+            <Editor value={note} onChange={setNote} className="editor">
               <IconButton disabled={status === 'posting'} onClick={handleSend}>
                 <PaperPlaneIcon />
               </IconButton>
