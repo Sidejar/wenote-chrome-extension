@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 import { sendToBackground } from '@plasmohq/messaging'
 import useApi from '~hook/useApi'
-import { dataURLtoFile } from '~services/utils'
+import { copyShareUrl, dataURLtoFile } from '~services/utils'
 import { Editor } from '~components/common/Editor'
 import { IconButton } from '@radix-ui/themes'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
@@ -27,7 +27,7 @@ export const Composer: React.FC<Props> = ({ meta }) => {
     },
   )
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isCapturing) {
       sendToBackground({
         name: 'capture',
@@ -41,8 +41,9 @@ export const Composer: React.FC<Props> = ({ meta }) => {
         data.append('url', window.location.href)
         data.append('meta', JSON.stringify(meta))
 
-        api.notes.saveNote(data).then(note => {
-          
+        api.notes.saveNote(data).then((note) => {
+          setNote('')
+          copyShareUrl(note.id)
         })
       })
     }

@@ -18,6 +18,7 @@ import { Editor } from '~components/common/Editor'
 import type { IComment } from '~models'
 import useApi from '~hook/useApi'
 import { Comment } from './comment'
+import { copyShareUrl } from '~services/utils'
 
 export const Thread = forwardRef<HTMLDivElement, Props>(
   ({ note, onClose, ...rest }, ref) => {
@@ -62,7 +63,13 @@ export const Thread = forwardRef<HTMLDivElement, Props>(
             <CheckCircledIcon width={16} height={16} />
           </IconButton>
           <Flex gap="3">
-            <IconButton variant="ghost" color="gray">
+            <IconButton
+              variant="ghost"
+              color="gray"
+              onClick={() => {
+                copyShareUrl(note.id)
+              }}
+            >
               <Share2Icon width={16} height={16} />
             </IconButton>
             <IconButton variant="ghost" color="gray" onClick={onClose}>
