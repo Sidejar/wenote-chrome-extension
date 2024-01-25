@@ -10,7 +10,7 @@ export class NotesService {
   constructor(private instance: AxiosInstance) {}
 
   saveNote = (data: FormData) =>
-    this.instance.post(`/notes`, data).then((response) => response.data)
+    this.instance.post<INote>(`/notes`, data).then((response) => response.data)
 
   getNote = (id: string) =>
     this.instance.get<INote>(`/notes/${id}`).then((response) => response.data)
