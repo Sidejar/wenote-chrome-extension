@@ -6,10 +6,13 @@ import { sendToBackground } from '@plasmohq/messaging'
 import useApi from '~hook/useApi'
 import { dataURLtoFile } from '~services/utils'
 import { Editor } from '~components/common/Editor'
+import { IconButton } from '@radix-ui/themes'
+import { PaperPlaneIcon } from '@radix-ui/react-icons'
 
 export const Composer: React.FC<Props> = ({ meta }) => {
-  const { api } = useApi()
-  const [noteToPost, setNote] = useState<string | undefined>()
+  const { api, status } = useApi()
+  const [isCapturing, setIsCapturing] = useState(false)
+  const [note, setNote] = useState<string>('')
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null,
   )
@@ -25,33 +28,35 @@ export const Composer: React.FC<Props> = ({ meta }) => {
   )
 
   useLayoutEffect(() => {
-    if (noteToPost) {
+    if (isCapturing) {
       sendToBackground({
         name: 'capture',
         body: {},
       }).then(({ message: image }) => {
-        setNote(undefined)
+        setIsCapturing(false)
 
         const data = new FormData()
         data.append('image', dataURLtoFile(image))
-        data.append('note', noteToPost)
+        data.append('note', note)
         data.append('url', window.location.href)
         data.append('meta', JSON.stringify(meta))
 
-        api.notes.saveNote(data)
+        api.notes.saveNote(data).then(note => {
+          
+        })
       })
     }
-  }, [noteToPost, api, meta])
+  }, [note, api, meta, isCapturing])
 
-  const handleSend = useCallback((value: string) => {
-    setNote(value)
+  const handleSend = useCallback(() => {
+    setIsCapturing(true)
   }, [])
 
   useEffect(() => {
     update && update()
   }, [meta.position, update])
 
-  if (noteToPost) return null // we hide UI to take screenshot and than make it visible
+  if (isCapturing) return null // we hide UI to take screenshot and than make it visible
 
   return (
     <AnimatePresence>
@@ -73,7 +78,11 @@ export const Composer: React.FC<Props> = ({ meta }) => {
           transition={{ ease: 'easeOut', duration: 0.2 }}
           className="popout"
         >
-          <Editor onSend={handleSend} />
+          <Editor value={note} onChange={setNote}>
+            <IconButton disabled={status === 'posting'} onClick={handleSend}>
+              <PaperPlaneIcon />
+            </IconButton>
+          </Editor>
         </motion.div>
       </div>
     </AnimatePresence>

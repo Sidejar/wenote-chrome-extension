@@ -8,7 +8,12 @@ import React, {
 import type { Props } from './types'
 import { motion } from 'framer-motion'
 import { Flex, IconButton, ScrollArea, Separator } from '@radix-ui/themes'
-import { CheckCircledIcon, Cross2Icon, Share2Icon } from '@radix-ui/react-icons'
+import {
+  CheckCircledIcon,
+  Cross2Icon,
+  PaperPlaneIcon,
+  Share2Icon,
+} from '@radix-ui/react-icons'
 import { Editor } from '~components/common/Editor'
 import type { IComment } from '~models'
 import useApi from '~hook/useApi'
@@ -16,7 +21,8 @@ import { Comment } from './comment'
 
 export const Thread = forwardRef<HTMLDivElement, Props>(
   ({ note, onClose, ...rest }, ref) => {
-    const { api } = useApi()
+    const { api, status } = useApi()
+    const [comment, setComment] = useState('')
     const [comments, setComments] = useState<IComment[]>([])
 
     useEffect(() => {
@@ -34,14 +40,12 @@ export const Thread = forwardRef<HTMLDivElement, Props>(
       [note],
     )
 
-    const handleSend = useCallback(
-      async (comment: string) => {
-        api.notes.saveComment(note.id, comment).then((comment) => {
-          setComments((state) => [...state, comment])
-        })
-      },
-      [api, note.id],
-    )
+    const handleSend = useCallback(() => {
+      api.notes.saveComment(note.id, comment).then((comment) => {
+        setComment('')
+        setComments((state) => [...state, comment])
+      })
+    }, [api, note.id, comment])
 
     return (
       <motion.div
@@ -73,7 +77,11 @@ export const Thread = forwardRef<HTMLDivElement, Props>(
             <Comment comment={c} key={c.id} />
           ))}
         </ScrollArea>
-        <Editor onSend={handleSend} />
+        <Editor value={comment} onChange={setComment}>
+          <IconButton disabled={status === 'posting'} onClick={handleSend}>
+            <PaperPlaneIcon />
+          </IconButton>
+        </Editor>
       </motion.div>
     )
   },
