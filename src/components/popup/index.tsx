@@ -16,7 +16,7 @@ import type { Summary } from '~services/Api/notes.service'
 import useApi from '~hook/useApi'
 
 export const Popup: React.FC = () => {
-  const { api, status } = useApi()
+  const { api } = useApi()
   const { user } = useAuthContext()
   const { onGoogleLogin } = useSocialLogin()
   const [summary, setSummary] = useState<Summary[]>()
@@ -28,7 +28,7 @@ export const Popup: React.FC = () => {
   const handleAdd = useCallback(async () => {
     sendToContentScript({
       name: 'widget',
-      body: { hide: false },
+      body: true,
     })
     window.close()
   }, [])

@@ -24,12 +24,12 @@ const Root = () => {
   const [user] = useStorage<IUser>('user')
   const [token] = useStorage<string>('token')
 
-  const { data } = useMessage<{ hide: boolean }, boolean>(async (req, res) => {
+  const { data } = useMessage<boolean, boolean>(async (req, res) => {
     res.send(true)
   })
 
   if (!user) return null
-  if (!data || data?.hide) return null
+  if (!data) return null
 
   return (
     <AuthContext.Provider value={{ user, token }}>

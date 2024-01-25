@@ -1,14 +1,13 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { Composer } from '../Composer'
 import type { NotesMeta } from '~models'
 import { Text } from '@radix-ui/themes'
+import { AnimatePresence } from 'framer-motion'
 
 export const Canvas: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)
   const [meta, setMeta] = useState<NotesMeta>()
-
-  const handleSend = useCallback(() => {}, [])
 
   useEffect(() => {
     ref.current &&
@@ -22,11 +21,11 @@ export const Canvas: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <AnimatePresence>
       <div ref={ref} className="blocker">
         <Text>{meta ? '' : 'Click anywhere to add note'}</Text>
       </div>
-      {meta && <Composer onSend={handleSend} meta={meta} />}
-    </>
+      {meta && <Composer meta={meta} />}
+    </AnimatePresence>
   )
 }

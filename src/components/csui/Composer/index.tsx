@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
-import { AnimatePresence, motion } from 'framer-motion'
-import { sendToBackground } from '@plasmohq/messaging'
+import { motion } from 'framer-motion'
+import { sendToBackground, sendToContentScript } from '@plasmohq/messaging'
 import useApi from '~hook/useApi'
 import { copyShareUrl, dataURLtoFile } from '~services/utils'
 import { Editor } from '~components/common/Editor'
 import { Button, Flex, IconButton, Text } from '@radix-ui/themes'
-import { PaperPlaneIcon } from '@radix-ui/react-icons'
+import { Cross2Icon, PaperPlaneIcon } from '@radix-ui/react-icons'
 import type { INote } from '~models'
 
 export const Composer: React.FC<Props> = ({ meta }) => {
@@ -45,7 +45,6 @@ export const Composer: React.FC<Props> = ({ meta }) => {
 
         api.notes.saveNote(data).then((note) => {
           setNote('')
-          copyShareUrl(note.id)
           setPostedNote(note)
         })
       })
@@ -60,6 +59,13 @@ export const Composer: React.FC<Props> = ({ meta }) => {
     postedNote && copyShareUrl(postedNote.id)
   }, [postedNote])
 
+  const handleClose = useCallback(() => {
+    sendToContentScript({
+      name: 'widget',
+      body: { hide: true },
+    })
+  }, [])
+
   useEffect(() => {
     update && update()
   }, [meta.position, update])
@@ -67,42 +73,51 @@ export const Composer: React.FC<Props> = ({ meta }) => {
   if (isCapturing) return null // we hide UI to take screenshot and than make it visible
 
   return (
-    <AnimatePresence>
-      <div
-        className="anchor"
-        style={{
-          left: meta.position[0] + meta.scroll[0],
-          top: meta.position[1] + meta.scroll[1],
-        }}
+    <div
+      className="anchor"
+      style={{
+        left: meta.position[0] + meta.scroll[0],
+        top: meta.position[1] + meta.scroll[1],
+      }}
+    >
+      <span ref={setReferenceElement} className="pointer icon" />
+      <motion.div
+        ref={setPopperElement}
+        style={styles.popper}
+        {...attributes.popper}
+        initial={{ opacity: 0, marginTop: -8 }}
+        animate={{ opacity: 1, marginTop: 0 }}
+        exit={{ opacity: 0, marginTop: 8 }}
+        transition={{ ease: 'easeOut', duration: 0.2 }}
+        className="popout"
       >
-        <span ref={setReferenceElement} className="pointer icon" />
-        <motion.div
-          ref={setPopperElement}
-          style={styles.popper}
-          {...attributes.popper}
-          initial={{ opacity: 0, marginTop: -8 }}
-          animate={{ opacity: 1, marginTop: 0 }}
-          exit={{ opacity: 0, marginTop: 8 }}
-          transition={{ ease: 'easeOut', duration: 0.2 }}
-          className="popout"
-        >
-          {!postedNote && (
+        {!postedNote && (
+          <>
+            <IconButton
+              size="1"
+              radius="full"
+              color="gray"
+              className="close"
+              onClick={handleClose}
+            >
+              <Cross2Icon />
+            </IconButton>
             <Editor value={note} onChange={setNote}>
               <IconButton disabled={status === 'posting'} onClick={handleSend}>
                 <PaperPlaneIcon />
               </IconButton>
             </Editor>
-          )}
-          {postedNote && (
-            <Flex direction="column" gap="4" p="4">
-              <Text>
-                Note added you can now start collaborating with your team.
-              </Text>
-              <Button onClick={handleCopy}>Copy link to clipboard</Button>
-            </Flex>
-          )}
-        </motion.div>
-      </div>
-    </AnimatePresence>
+          </>
+        )}
+        {postedNote && (
+          <Flex direction="column" gap="4" p="4">
+            <Text>
+              Note added you can now start collaborating with your team.
+            </Text>
+            <Button onClick={handleCopy}>Copy link to clipboard</Button>
+          </Flex>
+        )}
+      </motion.div>
+    </div>
   )
 }

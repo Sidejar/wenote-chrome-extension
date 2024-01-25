@@ -15,11 +15,16 @@
     .popout {
         width: 265px;
         margin: 0px 12px;
-        border-radius: 8px;
-        overflow: hidden;
+        border-radius: var(--radius-4);
         border: 1px solid var(--gray-4);
         background-color: var(--color-panel-solid);
         box-shadow: var(--shadow-4);
+    }
+
+    .close {
+        position: absolute;
+        right: -10px;
+        top: -10px;
     }
 }
 
