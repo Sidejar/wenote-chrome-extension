@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { sendToContentScript } from '@plasmohq/messaging'
 import React, { useCallback, useEffect, useState } from 'react'
 import type { CSUIEvent } from '~components/csui/types'
@@ -10,6 +11,7 @@ import { Badge, Button, Flex, Link, ScrollArea, Text } from '@radix-ui/themes'
 
 export const Home: React.FC = () => {
   const { api } = useApi()
+  const navigation = useNavigate()
   const { user } = useAuthContext()
   const { onGoogleLogin, isLoading } = useSocialLogin()
   const [summary, setSummary] = useState<Summary[]>()
@@ -53,7 +55,13 @@ export const Home: React.FC = () => {
           </Text>
           <ScrollArea>
             {summary?.map((s) => (
-              <Flex key={s.name} align="center" justify="between" pb="4">
+              <Flex
+                key={s.name}
+                align="center"
+                justify="between"
+                pb="4"
+                onClick={() => navigation('/details')}
+              >
                 <Link size="2" weight="regular" underline="always">
                   {s.name}
                 </Link>
