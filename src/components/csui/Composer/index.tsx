@@ -101,7 +101,7 @@ export const Composer: React.FC<Props> = ({ meta }) => {
             >
               <Cross2Icon />
             </IconButton>
-            <Editor value={note} onChange={setNote} className="editor">
+            <Editor value={note} onChange={setNote}>
               <IconButton disabled={status === 'posting'} onClick={handleSend}>
                 <PaperPlaneIcon />
               </IconButton>
