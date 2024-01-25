@@ -2,15 +2,14 @@ import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
-import anchorIcon from 'data-base64:~assets/images/anchor-icon.png'
 import { sendToBackground } from '@plasmohq/messaging'
 import useApi from '~hook/useApi'
 import { dataURLtoFile } from '~services/utils'
 import { Editor } from '~components/common/Editor'
 
-export const Composer: React.FC<Props> = ({ meta, onSend }) => {
-  const { api, status } = useApi()
-  const [postedNote, setNote] = useState<string | undefined>()
+export const Composer: React.FC<Props> = ({ meta }) => {
+  const { api } = useApi()
+  const [noteToPost, setNote] = useState<string | undefined>()
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null,
   )
@@ -26,7 +25,7 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
   )
 
   useLayoutEffect(() => {
-    if (postedNote) {
+    if (noteToPost) {
       sendToBackground({
         name: 'capture',
         body: {},
@@ -35,16 +34,16 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
 
         const data = new FormData()
         data.append('image', dataURLtoFile(image))
-        data.append('note', postedNote)
+        data.append('note', noteToPost)
         data.append('url', window.location.href)
         data.append('meta', JSON.stringify(meta))
 
         api.notes.saveNote(data)
       })
     }
-  }, [postedNote, api, meta])
+  }, [noteToPost, api, meta])
 
-  const handleSend = useCallback(async (value: string) => {
+  const handleSend = useCallback((value: string) => {
     setNote(value)
   }, [])
 
@@ -52,7 +51,7 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
     update && update()
   }, [meta.position, update])
 
-  if (postedNote) return null // we hide UI to take screenshot and than make it visible
+  if (noteToPost) return null // we hide UI to take screenshot and than make it visible
 
   return (
     <AnimatePresence>
@@ -63,13 +62,7 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
           top: meta.position[1] + meta.scroll[1],
         }}
       >
-        <img
-          ref={setReferenceElement}
-          src={anchorIcon}
-          width={44}
-          height={44}
-          className="icon"
-        />
+        <span ref={setReferenceElement} className="pointer icon" />
         <motion.div
           ref={setPopperElement}
           style={styles.popper}
