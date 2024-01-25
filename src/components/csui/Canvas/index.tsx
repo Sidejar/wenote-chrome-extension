@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { Composer } from '../Composer'
 import type { NotesMeta } from '~models'
+import { Text } from '@radix-ui/themes'
 
 export const Canvas: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)
@@ -23,7 +24,7 @@ export const Canvas: React.FC = () => {
   return (
     <>
       <div ref={ref} className="blocker">
-        {meta ? '' : 'Click anywhere to add note'}
+        <Text>{meta ? '' : 'Click anywhere to add note'}</Text>
       </div>
       {meta && <Composer onSend={handleSend} meta={meta} />}
     </>
