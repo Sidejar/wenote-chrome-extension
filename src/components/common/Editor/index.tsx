@@ -18,7 +18,6 @@ export const Editor: React.FC<Props> = ({
       />
       {value.length > 0 && (
         <>
-          <Separator size="4" />
           <Flex p="2" justify="end">
             {children}
           </Flex>

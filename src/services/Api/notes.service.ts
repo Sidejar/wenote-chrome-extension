@@ -4,6 +4,7 @@ import type { INote, IComment } from '~models'
 export interface Summary {
   name: string
   count: number
+  id: number
 }
 
 export class NotesService {

@@ -90,23 +90,21 @@ export const Composer: React.FC<Props> = ({ meta }) => {
         transition={{ ease: 'easeOut', duration: 0.2 }}
         className="popout"
       >
+        <IconButton
+          size="1"
+          radius="full"
+          color="gray"
+          className="close"
+          onClick={handleClose}
+        >
+          <Cross2Icon />
+        </IconButton>
         {!postedNote && (
-          <>
-            <IconButton
-              size="1"
-              radius="full"
-              color="gray"
-              className="close"
-              onClick={handleClose}
-            >
-              <Cross2Icon />
+          <Editor value={note} onChange={setNote}>
+            <IconButton disabled={status === 'posting'} onClick={handleSend}>
+              <PaperPlaneIcon />
             </IconButton>
-            <Editor value={note} onChange={setNote}>
-              <IconButton disabled={status === 'posting'} onClick={handleSend}>
-                <PaperPlaneIcon />
-              </IconButton>
-            </Editor>
-          </>
+          </Editor>
         )}
         {postedNote && (
           <Flex direction="column" gap="4" p="4">
