@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import type { Props } from './types'
 import { usePopper } from 'react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -10,6 +10,7 @@ import { Editor } from '~components/common/Editor'
 
 export const Composer: React.FC<Props> = ({ meta, onSend }) => {
   const { api, status } = useApi()
+  const [postedNote, setNote] = useState<string | undefined>()
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null,
   )
@@ -24,27 +25,34 @@ export const Composer: React.FC<Props> = ({ meta, onSend }) => {
     },
   )
 
-  const handleSend = useCallback(
-    async (value: string) => {
-      const { message: image } = await sendToBackground({
+  useLayoutEffect(() => {
+    if (postedNote) {
+      sendToBackground({
         name: 'capture',
         body: {},
+      }).then(({ message: image }) => {
+        setNote(undefined)
+
+        const data = new FormData()
+        data.append('image', dataURLtoFile(image))
+        data.append('note', postedNote)
+        data.append('url', window.location.href)
+        data.append('meta', JSON.stringify(meta))
+
+        api.notes.saveNote(data)
       })
+    }
+  }, [postedNote, api, meta])
 
-      const data = new FormData()
-      data.append('image', dataURLtoFile(image))
-      data.append('note', value)
-      data.append('url', window.location.href)
-      data.append('meta', JSON.stringify(meta))
-
-      api.notes.saveNote(data)
-    },
-    [meta, api],
-  )
+  const handleSend = useCallback(async (value: string) => {
+    setNote(value)
+  }, [])
 
   useEffect(() => {
     update && update()
   }, [meta.position, update])
+
+  if (postedNote) return null // we hide UI to take screenshot and than make it visible
 
   return (
     <AnimatePresence>

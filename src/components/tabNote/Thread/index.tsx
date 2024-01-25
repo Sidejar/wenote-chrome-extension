@@ -14,8 +14,8 @@ import type { IComment } from '~models'
 import useApi from '~hook/useApi'
 import { Comment } from './comment'
 
-export const Thread: React.FC = forwardRef<HTMLDivElement, Props>(
-  ({ note, ...rest }, ref) => {
+export const Thread = forwardRef<HTMLDivElement, Props>(
+  ({ note, onClose, ...rest }, ref) => {
     const { api } = useApi()
     const [comments, setComments] = useState<IComment[]>([])
 
@@ -61,14 +61,14 @@ export const Thread: React.FC = forwardRef<HTMLDivElement, Props>(
             <IconButton variant="ghost" color="gray">
               <Share2Icon width={16} height={16} />
             </IconButton>
-            <IconButton variant="ghost" color="gray">
+            <IconButton variant="ghost" color="gray" onClick={onClose}>
               <Cross2Icon width={16} height={16} />
             </IconButton>
           </Flex>
         </div>
         <Separator size="4" />
         <ScrollArea className="list">
-          <Comment comment={rootComment} isRoot />
+          <Comment comment={rootComment} />
           {comments.map((c) => (
             <Comment comment={c} key={c.id} />
           ))}

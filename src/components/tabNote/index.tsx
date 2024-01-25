@@ -8,6 +8,7 @@ import { Thread } from './Thread'
 export const TabNote: React.FC = () => {
   const { api, status } = useApi()
   const [note, setNote] = useState<INote>()
+  const [isOpen, setOpen] = useState(false)
 
   useEffect(() => {
     const searchParams = new URLSearchParams(document.location.search)
@@ -45,17 +46,24 @@ export const TabNote: React.FC = () => {
             className="anchor"
             style={{ left: `${xPosition}%`, top: `${yPosition}%` }}
           >
-            <span className="pointer" ref={setReferenceElement}>
+            <span
+              className="pointer"
+              ref={setReferenceElement}
+              onClick={() => setOpen((state) => !state)}
+            >
               <Text size="2" weight="bold">
                 {(note?.comments || 0) + 1}
               </Text>
             </span>
-            <Thread
-              ref={setPopperElement}
-              note={note}
-              style={styles.popper}
-              {...attributes.popper}
-            />
+            {isOpen && (
+              <Thread
+                ref={setPopperElement}
+                note={note}
+                style={styles.popper}
+                onClose={() => setOpen(false)}
+                {...attributes.popper}
+              />
+            )}
           </span>
         )}
       </div>
