@@ -7,13 +7,14 @@ import React, {
 } from 'react'
 import type { Props } from './types'
 import { motion } from 'framer-motion'
-import { Flex, IconButton, ScrollArea, Separator } from '@radix-ui/themes'
 import {
-  CheckCircledIcon,
-  Cross2Icon,
-  PaperPlaneIcon,
-  Share2Icon,
-} from '@radix-ui/react-icons'
+  Flex,
+  IconButton,
+  ScrollArea,
+  Separator,
+  Tooltip,
+} from '@radix-ui/themes'
+import { CopyIcon, Cross2Icon, PaperPlaneIcon } from '@radix-ui/react-icons'
 import { Editor } from '~components/common/Editor'
 import type { IComment } from '~models'
 import useApi from '~hook/useApi'
@@ -59,19 +60,19 @@ export const Thread = forwardRef<HTMLDivElement, Props>(
         {...rest}
       >
         <div className="topbar">
-          <IconButton variant="ghost">
-            <CheckCircledIcon width={16} height={16} />
-          </IconButton>
+          <span />
           <Flex gap="3">
-            <IconButton
-              variant="ghost"
-              color="gray"
-              onClick={() => {
-                copyShareUrl(note.id)
-              }}
-            >
-              <Share2Icon width={16} height={16} />
-            </IconButton>
+            <Tooltip content="Copy link">
+              <IconButton
+                variant="ghost"
+                color="gray"
+                onClick={() => {
+                  copyShareUrl(note.id)
+                }}
+              >
+                <CopyIcon width={16} height={16} />
+              </IconButton>
+            </Tooltip>
             <IconButton variant="ghost" color="gray" onClick={onClose}>
               <Cross2Icon width={16} height={16} />
             </IconButton>

@@ -6,13 +6,15 @@ import { sendToBackground } from '@plasmohq/messaging'
 import useApi from '~hook/useApi'
 import { copyShareUrl, dataURLtoFile } from '~services/utils'
 import { Editor } from '~components/common/Editor'
-import { IconButton } from '@radix-ui/themes'
+import { Button, Flex, IconButton, Text } from '@radix-ui/themes'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
+import type { INote } from '~models'
 
 export const Composer: React.FC<Props> = ({ meta }) => {
   const { api, status } = useApi()
-  const [isCapturing, setIsCapturing] = useState(false)
   const [note, setNote] = useState<string>('')
+  const [isCapturing, setIsCapturing] = useState(false)
+  const [postedNote, setPostedNote] = useState<INote>()
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null,
   )
@@ -44,6 +46,7 @@ export const Composer: React.FC<Props> = ({ meta }) => {
         api.notes.saveNote(data).then((note) => {
           setNote('')
           copyShareUrl(note.id)
+          setPostedNote(note)
         })
       })
     }
@@ -52,6 +55,10 @@ export const Composer: React.FC<Props> = ({ meta }) => {
   const handleSend = useCallback(() => {
     setIsCapturing(true)
   }, [])
+
+  const handleCopy = useCallback(() => {
+    postedNote && copyShareUrl(postedNote.id)
+  }, [postedNote])
 
   useEffect(() => {
     update && update()
@@ -79,11 +86,21 @@ export const Composer: React.FC<Props> = ({ meta }) => {
           transition={{ ease: 'easeOut', duration: 0.2 }}
           className="popout"
         >
-          <Editor value={note} onChange={setNote}>
-            <IconButton disabled={status === 'posting'} onClick={handleSend}>
-              <PaperPlaneIcon />
-            </IconButton>
-          </Editor>
+          {!postedNote && (
+            <Editor value={note} onChange={setNote}>
+              <IconButton disabled={status === 'posting'} onClick={handleSend}>
+                <PaperPlaneIcon />
+              </IconButton>
+            </Editor>
+          )}
+          {postedNote && (
+            <Flex direction="column" gap="4" p="4">
+              <Text>
+                Note added you can now start collaborating with your team.
+              </Text>
+              <Button onClick={handleCopy}>Copy link to clipboard</Button>
+            </Flex>
+          )}
         </motion.div>
       </div>
     </AnimatePresence>
