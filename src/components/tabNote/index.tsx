@@ -38,7 +38,7 @@ export const TabNote: React.FC = () => {
   })
 
   return (
-    <Theme>
+    <Theme className="wenote">
       <div className="container">
         <img src={note?.screenshot} className="image" />
         {note && (

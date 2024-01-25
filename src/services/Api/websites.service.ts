@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios'
 
-export interface NoteSummary {
+export interface LinkSummary {
   id: string
   replies: string
   note: string
@@ -11,8 +11,8 @@ export interface NoteSummary {
 export class WebsitesService {
   constructor(private instance: AxiosInstance) {}
 
-  getNotes = (id: number) =>
+  getNotes = (id: string) =>
     this.instance
-      .get<NoteSummary[]>(`/websites/${id}/notes`)
+      .get<LinkSummary[]>(`/websites/${id}/notes`)
       .then((response) => response.data)
 }

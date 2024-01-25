@@ -7,13 +7,16 @@ import { LinkDetails } from './LinkDetails'
 
 export const Popup: React.FC = () => {
   return (
-    <Theme>
+    <Theme className="wenote">
       <div className="popup">
         <img src={logo} />
         <MemoryRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/details" element={<LinkDetails />} />
+            <Route
+              path="/details/:websiteId/:domain"
+              element={<LinkDetails />}
+            />
           </Routes>
         </MemoryRouter>
       </div>

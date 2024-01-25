@@ -10,7 +10,28 @@
         width: 100%;
     }
 
-    .history {
+    .page {
         width: 100%;
+    }
+
+    .list {
+        max-height: 300px;
+        max-width: 100%;
+    }
+
+    .details {
+        .meta {
+            color: var(--gray-11);
+        }
+
+        .dot {
+            color: var(--gray-7);
+        }
+
+        .title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 }

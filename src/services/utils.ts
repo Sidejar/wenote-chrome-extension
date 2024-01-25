@@ -1,3 +1,5 @@
+import { env } from '~env'
+
 export const dataURLtoFile = (dataurl) => {
   const arr = dataurl.split(',')
   const mime = arr[0].match(/:(.*?);/)[1]
@@ -11,8 +13,10 @@ export const dataURLtoFile = (dataurl) => {
   return new File([u8arr], 'blob.png', { type: mime })
 }
 
+export const generateShareUrl = (noteId: string) => {
+  return `chrome-extension://${env.crxId}/tabs/note.html?id=${noteId}`
+}
+
 export const copyShareUrl = (noteId: string) => {
-  return window.navigator.clipboard.writeText(
-    `chrome-extension://${process.env.PLASMO_PUBLIC_CRX_ID}/tabs/note.html?id=${noteId}`,
-  )
+  return window.navigator.clipboard.writeText(generateShareUrl(noteId))
 }

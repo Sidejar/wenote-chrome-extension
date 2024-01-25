@@ -4,7 +4,7 @@ import { Canvas } from './Canvas'
 
 export const CSUI: React.FC = () => {
   return (
-    <Theme>
+    <Theme className="wenote">
       <Canvas />
     </Theme>
   )
