@@ -6,7 +6,7 @@ import { Constants } from '~constants'
 const storage = new Storage()
 
 export const useSocialLogin = () => {
-  const { api } = useApi()
+  const { api, status } = useApi()
   const [isLoading, setIsLoading] = useState(false)
 
   const onGoogleLogin = useCallback(() => {
@@ -25,7 +25,7 @@ export const useSocialLogin = () => {
   }, [api])
 
   return {
-    isLoading,
+    isLoading: isLoading || status === 'posting',
     onGoogleLogin,
   }
 }

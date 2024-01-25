@@ -20,7 +20,7 @@ import { DateTime } from 'luxon'
 export const Popup: React.FC = () => {
   const { api } = useApi()
   const { user } = useAuthContext()
-  const { onGoogleLogin } = useSocialLogin()
+  const { onGoogleLogin, isLoading } = useSocialLogin()
   const [summary, setSummary] = useState<Summary[]>()
 
   useEffect(() => {
@@ -48,6 +48,7 @@ export const Popup: React.FC = () => {
             variant="surface"
             onClick={onGoogleLogin}
             className="cta"
+            disabled={isLoading}
           >
             Login with Google
           </Button>
