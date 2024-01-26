@@ -1,7 +1,7 @@
 {
   "name": "wenote",
   "displayName": "Wenote",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Wenote browser extension",
   "author": "Sidejar LLC. <tilal@sidejar.co>",
   "contributors": [
@@ -48,15 +48,11 @@
   "manifest": {
     "key": "$CRX_KEY",
     "permissions": [
-      "<all_urls>",
       "identity",
       "activeTab"
     ],
     "web_accessible_resources": [
       {
-        "matches": [
-          "<all_urls>"
-        ],
         "resources": [
           "tabs/note.html"
         ],
