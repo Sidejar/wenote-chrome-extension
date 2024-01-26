@@ -8,6 +8,7 @@ import { useSocialLogin } from '~hook/useSocialLogin'
 import type { Summary } from '~services/Api/notes.service'
 import { DateTime } from 'luxon'
 import { Badge, Button, Flex, Link, ScrollArea, Text } from '@radix-ui/themes'
+import csui from 'url:~/content/widget'
 
 export const Home: React.FC = () => {
   const { api } = useApi()
@@ -28,7 +29,26 @@ export const Home: React.FC = () => {
         time: DateTime.now(),
       },
     })
-    window.close()
+      .then(() => {
+        // window.close()
+      })
+      .catch(async () => {
+        const [tab] = await chrome.tabs.query({
+          active: true,
+          lastFocusedWindow: true,
+        })
+        console.log(tab)
+        chrome.scripting
+          .executeScript({
+            target: { tabId: tab.id },
+            files: [
+              csui.replace(/chrome-extension:\/\/[a-z]*\/([^?]*)\?.*/i, '$1'),
+            ],
+          })
+          .finally(() => {
+            // window.close()
+          })
+      })
   }, [])
   return (
     <>

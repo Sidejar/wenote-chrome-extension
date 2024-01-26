@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import type { PlasmoGetStyle } from 'plasmo'
-
-import '~components/csui/styles.scss'
-import '~components/global.scss'
-import '@radix-ui/themes/styles.css'
 
 import globalStyles from 'data-text:~components/global.scss'
 import styles from 'data-text:~components/csui/styles.scss'
@@ -15,17 +10,12 @@ import { useStorage } from '@plasmohq/storage/hook'
 import { useMessage } from '@plasmohq/messaging/hook'
 import { WidgetContext } from '~contexts/widget'
 import type { CSUIEvent } from '~components/csui/types'
+import { createRoot } from 'react-dom/client'
 
-export const getStyle: PlasmoGetStyle = () => {
-  const style = document.createElement('style')
-  style.textContent = `${radixStyles} ${styles} ${globalStyles}`
-  return style
-}
-
-const Root = () => {
+const Root: React.FC = () => {
   const [user] = useStorage<IUser>('user')
   const [token] = useStorage<string>('token')
-  const [isWidgetVisible, setWidgetVisibility] = useState(false)
+  const [isWidgetVisible, setWidgetVisibility] = useState(true)
 
   const { data } = useMessage<{ event: CSUIEvent; time: number }, boolean>(
     async (req, res) => {
@@ -56,4 +46,19 @@ const Root = () => {
   )
 }
 
-export default Root
+const body = document.querySelector('body')
+
+const app = document.createElement('div')
+app.id = 'wenote'
+
+const style = document.createElement('style')
+style.textContent = `${radixStyles} ${styles} ${globalStyles}`
+
+if (body) {
+  body.prepend(app)
+  body.append(style)
+}
+
+const container = document.getElementById('wenote')
+const root = createRoot(container!)
+root.render(<Root />)
