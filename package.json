@@ -1,7 +1,7 @@
 {
   "name": "wenote",
   "displayName": "Wenote",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Wenote browser extension",
   "author": "Sidejar LLC. <tilal@sidejar.co>",
   "contributors": [
